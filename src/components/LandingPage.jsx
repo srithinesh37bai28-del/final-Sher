@@ -10,6 +10,73 @@ import {
 
 export default function LandingPage({ setActiveTab }) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeDomainIndex, setActiveDomainIndex] = useState(0);
+
+  // 6 Core Focus Domains (Normalized & Streamlined)
+  const domainsList = [
+    {
+      id: 'hr',
+      title: 'HR & RESUMES',
+      subtitle: 'CV, Offer Letter, Experience',
+      icon: Briefcase,
+      accentColor: '#F59E0B',
+      activeBorder: 'border-amber-400/50 shadow-amber-500/20',
+      activeBg: 'bg-gradient-to-br from-amber-500/15 via-amber-400/5 to-transparent'
+    },
+    {
+      id: 'identity',
+      title: 'IDENTITY & PASSPORTS',
+      subtitle: 'Passport, DL, National ID',
+      icon: CreditCard,
+      accentColor: '#00E5FF',
+      activeBorder: 'border-[#00E5FF]/50 shadow-[#00E5FF]/20',
+      activeBg: 'bg-gradient-to-br from-cyan-500/15 via-[#00E5FF]/5 to-transparent'
+    },
+    {
+      id: 'bills',
+      title: 'BILLS & INVOICES',
+      subtitle: 'Utility Bills, Receipts, Tax',
+      icon: Receipt,
+      accentColor: '#EC4899',
+      activeBorder: 'border-pink-400/50 shadow-pink-500/20',
+      activeBg: 'bg-gradient-to-br from-pink-500/15 via-pink-400/5 to-transparent'
+    },
+    {
+      id: 'education',
+      title: 'EDUCATION & DEGREES',
+      subtitle: 'Diploma, Transcripts, Certs',
+      icon: GraduationCap,
+      accentColor: '#97d700',
+      activeBorder: 'border-[#97d700]/50 shadow-[#97d700]/20',
+      activeBg: 'bg-gradient-to-br from-[#97d700]/15 via-[#97d700]/5 to-transparent'
+    },
+    {
+      id: 'legal',
+      title: 'LEGAL CONTRACTS',
+      subtitle: 'Deeds, Leases, Agreements',
+      icon: Scale,
+      accentColor: '#A855F7',
+      activeBorder: 'border-purple-400/50 shadow-purple-500/20',
+      activeBg: 'bg-gradient-to-br from-purple-500/15 via-purple-400/5 to-transparent'
+    },
+    {
+      id: 'medical',
+      title: 'MEDICAL & HEALTH',
+      subtitle: 'Health Records, Claims',
+      icon: HeartPulse,
+      accentColor: '#FB923C',
+      activeBorder: 'border-orange-400/50 shadow-orange-500/20',
+      activeBg: 'bg-gradient-to-br from-orange-500/15 via-orange-400/5 to-transparent'
+    }
+  ];
+
+  // Auto-Cycle Highlight across the 6 Domains smoothly every 2.4 seconds
+  useEffect(() => {
+    const domainTimer = setInterval(() => {
+      setActiveDomainIndex((prev) => (prev + 1) % domainsList.length);
+    }, 2400);
+    return () => clearInterval(domainTimer);
+  }, [domainsList.length]);
 
   const algorithmLayers = [
     {
@@ -185,6 +252,114 @@ export default function LandingPage({ setActiveTab }) {
               </button>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* 2. ✨ NORMALIZED & OPTIMIZED GLASSMORPHISM DOMAIN SHOWCASE */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-200 dark:border-white/10 pb-4">
+          <div>
+            <div className="flex items-center space-x-2 text-xs font-mono font-bold text-[#97d700] uppercase tracking-wider mb-1">
+              <span className="w-2 h-2 rounded-full bg-[#97d700] animate-pulse" />
+              <span>Target Forensic Verticals</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-headline font-black text-slate-900 dark:text-white tracking-tight">
+              Supported Verification Domains
+            </h2>
+          </div>
+          <div className="flex items-center space-x-2">
+            {domainsList.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveDomainIndex(i)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  activeDomainIndex === i 
+                    ? 'w-7 bg-gradient-to-r from-[#97d700] to-[#00E5FF]' 
+                    : 'w-2 bg-slate-300 dark:bg-white/20 hover:bg-slate-400 dark:hover:bg-white/40'
+                }`}
+                aria-label={`Select domain ${i + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* 6 Normalized Glassmorphism Domain Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {domainsList.map((dom, idx) => {
+            const Icon = dom.icon;
+            const isActive = activeDomainIndex === idx;
+
+            return (
+              <motion.div
+                key={dom.id}
+                onClick={() => {
+                  setActiveDomainIndex(idx);
+                  setActiveTab('verification');
+                }}
+                whileHover={{ y: -4, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`relative group cursor-pointer rounded-3xl p-6 transition-all duration-500 backdrop-blur-xl border flex flex-col justify-between overflow-hidden shadow-lg
+                  ${isActive
+                    ? `border-2 ${dom.activeBorder} ${dom.activeBg} shadow-2xl dark:bg-slate-900/90 scale-[1.015]`
+                    : 'bg-white/70 dark:bg-slate-900/50 border-slate-200/80 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20'
+                  }`}
+              >
+                {/* Active Dynamic Glow */}
+                <div 
+                  className={`absolute -top-10 -right-10 w-28 h-28 rounded-full blur-2xl transition-opacity duration-500 pointer-events-none ${
+                    isActive ? 'opacity-40' : 'opacity-0 group-hover:opacity-20'
+                  }`}
+                  style={{ backgroundColor: dom.accentColor }}
+                />
+
+                {/* Top: Icon & Indicator */}
+                <div className="flex items-center justify-between">
+                  <div 
+                    className={`w-13 h-13 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110 shadow-md ${
+                      isActive 
+                        ? 'bg-slate-950/80 dark:bg-black/70 border-white/20' 
+                        : 'bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-white/10'
+                    }`}
+                  >
+                    <Icon size={26} style={{ color: dom.accentColor }} />
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    {isActive && (
+                      <span className="flex h-2 w-2 relative">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: dom.accentColor }}></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: dom.accentColor }}></span>
+                      </span>
+                    )}
+                    <span className="text-[10px] font-mono font-black uppercase px-2 py-0.5 rounded-full border bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-slate-500 dark:text-gray-400">
+                      0{idx + 1}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Body: Title & Subtitle */}
+                <div className="mt-5 space-y-1">
+                  <h3 className="font-headline font-black text-lg tracking-tight text-slate-900 dark:text-white group-hover:text-[#00E5FF] transition-colors">
+                    {dom.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm font-medium text-slate-600 dark:text-gray-300 leading-relaxed">
+                    {dom.subtitle}
+                  </p>
+                </div>
+
+                {/* Bottom: Subtle Status Pill */}
+                <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between text-[11px] font-mono">
+                  <span className="font-bold text-slate-500 dark:text-gray-400 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: dom.accentColor }} />
+                    Active Verification
+                  </span>
+                  <span className="font-bold text-[#00E5FF] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                    Scan <ArrowRight size={11} />
+                  </span>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 
