@@ -9,7 +9,6 @@ export default function Navbar({ activeTab, setActiveTab, theme, toggleTheme }) 
     { id: 'landing',      label: 'Overview',           icon: Shield },
     { id: 'verification', label: 'Verify Document',    icon: SearchCheck },
     { id: 'dashboard',    label: 'Forensic Dashboard', icon: LayoutDashboard },
-    { id: 'settings',     label: 'Engine Settings',    icon: Settings },
   ];
 
   return (
