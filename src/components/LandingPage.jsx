@@ -3,11 +3,145 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Shield, Sparkles, Zap, Lock, Cpu, Eye, CheckCircle2, ArrowRight, 
   FileSearch, Layers, Binary, SearchCheck, Scale, History, ShieldAlert,
-  Flame, Crosshair, ChevronRight, ChevronLeft, Play, Pause, Check, AlertTriangle, Activity
+  Flame, Crosshair, ChevronRight, ChevronLeft, Play, Pause, Check, AlertTriangle, 
+  Activity, Briefcase, GraduationCap, Receipt, CreditCard, HeartPulse, FileText,
+  FileCheck2, Fingerprint, Award, FilePlus2, Sparkle
 } from 'lucide-react';
 
 export default function LandingPage({ setActiveTab }) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeDomainIdx, setActiveDomainIdx] = useState(0);
+  const [isDomainAutoPlay, setIsDomainAutoPlay] = useState(true);
+
+  // 6 Focused Domains Data
+  const focusedDomains = [
+    {
+      id: 'hr',
+      title: 'HR & RESUMES',
+      subtitle: 'CV, Offer Letter, Experience',
+      icon: Briefcase,
+      accentColor: '#F59E0B', // Amber
+      glassBg: 'from-amber-500/15 via-amber-400/5 to-transparent',
+      borderColor: 'border-amber-400/40 dark:border-amber-400/30',
+      textColor: 'text-amber-500 dark:text-amber-400',
+      badgeBg: 'bg-amber-400/10 text-amber-500 border-amber-400/30',
+      lightTileBg: 'bg-[#FFFBEB] text-[#92400E] border-amber-200 shadow-amber-500/10',
+      stats: '99.7% Accuracy · 120ms Latency',
+      docTypes: ['Resume & CV PDF', 'Employment Offer Letter', 'Experience Certificate', 'Salary Slip & CTC Breakdown', 'Relieving Letter'],
+      fraudVectors: [
+        'Overwritten tenure dates & fabricated employment durations',
+        'Altered compensation figures & spliced salary slips',
+        'Forged company letterheads & cloned HR stamp signatures',
+        'AI-generated synthetic resume profiles & non-existent employers'
+      ],
+      highlight: 'Prevents candidate credential fraud and false experience claims instantly.'
+    },
+    {
+      id: 'identity',
+      title: 'IDENTITY & PASSPORTS',
+      subtitle: 'Passport, DL, National ID',
+      icon: CreditCard,
+      accentColor: '#00E5FF', // Cyan
+      glassBg: 'from-cyan-500/15 via-[#00E5FF]/5 to-transparent',
+      borderColor: 'border-cyan-400/40 dark:border-cyan-400/30',
+      textColor: 'text-cyan-600 dark:text-[#00E5FF]',
+      badgeBg: 'bg-cyan-400/10 text-cyan-500 border-cyan-400/30',
+      lightTileBg: 'bg-[#ECFEFF] text-[#155E75] border-cyan-200 shadow-cyan-500/10',
+      stats: '99.9% Accuracy · 95ms Latency',
+      docTypes: ['International Passport Bio Page', 'Driving License', 'National ID / Aadhaar / SSN', 'Voter Registration Card', 'Residence Permit'],
+      fraudVectors: [
+        'Face-swap deepfakes & synthetic portrait replacement',
+        'Modified date of birth and validity expiry dates',
+        'Spliced Machine Readable Zone (MRZ) checksum vectors',
+        'AI diffusion synthetic ID template generation'
+      ],
+      highlight: 'Secures digital KYC, onboarding, and border immigration document checks.'
+    },
+    {
+      id: 'bills',
+      title: 'BILLS & INVOICES',
+      subtitle: 'Utility Bills, Receipts, Tax',
+      icon: Receipt,
+      accentColor: '#EC4899', // Pink
+      glassBg: 'from-pink-500/15 via-pink-400/5 to-transparent',
+      borderColor: 'border-pink-400/40 dark:border-pink-400/30',
+      textColor: 'text-pink-600 dark:text-pink-400',
+      badgeBg: 'bg-pink-400/10 text-pink-500 border-pink-400/30',
+      lightTileBg: 'bg-[#FDF2F8] text-[#9D174D] border-pink-200 shadow-pink-500/10',
+      stats: '99.8% Accuracy · 110ms Latency',
+      docTypes: ['Electricity & Gas Utility Bill', 'Retail & POS Purchase Receipts', 'GST / VAT Tax Invoices', 'Bank Statements & Wire Proof', 'Vendor Purchase Orders'],
+      fraudVectors: [
+        'Overwritten billing totals and altered decimal points',
+        'Modified billing addresses and consumer account numbers',
+        'Mathematical checksum & arithmetic balance contradictions',
+        'Repeated invoice numbers generated via Canva / PDF editors'
+      ],
+      highlight: 'Eliminates tax evasion, expense reimbursement fraud, and loan document tampering.'
+    },
+    {
+      id: 'education',
+      title: 'EDUCATION & DEGREES',
+      subtitle: 'Diploma, Transcripts, Certs',
+      icon: GraduationCap,
+      accentColor: '#97d700', // Lime
+      glassBg: 'from-[#97d700]/15 via-[#97d700]/5 to-transparent',
+      borderColor: 'border-[#97d700]/40 dark:border-[#97d700]/30',
+      textColor: 'text-[#659b00] dark:text-[#97d700]',
+      badgeBg: 'bg-[#97d700]/10 text-[#97d700] border-[#97d700]/30',
+      lightTileBg: 'bg-[#F4FCE3] text-[#3F6212] border-lime-200 shadow-lime-500/10',
+      stats: '99.9% Accuracy · 140ms Latency',
+      docTypes: ['University Degree & Diploma', 'Semester Grade Transcripts', 'Professional Training Certifications', 'Standardized Test Scorecards', 'Dean Honor Letters'],
+      fraudVectors: [
+        'Photorealistic AI-generated certificates with synthetic seals',
+        'Overwritten GPA grades, grade points, and honors designations',
+        'Forged registrar signatures & distorted university seal vectors',
+        'Manipulated issue dates and certificate verification IDs'
+      ],
+      highlight: 'Protects university credentials and enterprise professional certification verifications.'
+    },
+    {
+      id: 'legal',
+      title: 'LEGAL CONTRACTS',
+      subtitle: 'Deeds, Leases, Agreements',
+      icon: Scale,
+      accentColor: '#8B5CF6', // Purple
+      glassBg: 'from-purple-500/15 via-purple-400/5 to-transparent',
+      borderColor: 'border-purple-400/40 dark:border-purple-400/30',
+      textColor: 'text-purple-600 dark:text-purple-400',
+      badgeBg: 'bg-purple-400/10 text-purple-500 border-purple-400/30',
+      lightTileBg: 'bg-[#F5F3FF] text-[#5B21B6] border-purple-200 shadow-purple-500/10',
+      stats: '99.6% Accuracy · 160ms Latency',
+      docTypes: ['Property Deeds & Title Records', 'Commercial Lease Agreements', 'Non-Disclosure Agreements (NDA)', 'Corporate Power of Attorney', 'Notarized Affidavits'],
+      fraudVectors: [
+        'Inserted/deleted clauses & altered contractual obligations',
+        'Copy-pasted notary public stamps & digital stamp splicing',
+        'Modified survey boundary coordinates & asset valuation numbers',
+        'Backdated execution dates and unauthorized digital signature blocks'
+      ],
+      highlight: 'Safeguards property transactions, commercial leases, and corporate legal contracts.'
+    },
+    {
+      id: 'medical',
+      title: 'MEDICAL & HEALTH',
+      subtitle: 'Health Records, Claims',
+      icon: HeartPulse,
+      accentColor: '#FB923C', // Orange / Coral
+      glassBg: 'from-orange-500/15 via-orange-400/5 to-transparent',
+      borderColor: 'border-orange-400/40 dark:border-orange-400/30',
+      textColor: 'text-orange-600 dark:text-orange-400',
+      badgeBg: 'bg-orange-400/10 text-orange-500 border-orange-400/30',
+      lightTileBg: 'bg-[#FFF7ED] text-[#9A3412] border-orange-200 shadow-orange-500/10',
+      stats: '99.8% Accuracy · 130ms Latency',
+      docTypes: ['Hospital Discharge Summary', 'Diagnostic Lab Pathology Report', 'Health Insurance Claim Dossier', 'Doctor Prescription & Medical Bill', 'Disability Assessment Form'],
+      fraudVectors: [
+        'Inflated hospital diagnostic & treatment billing amounts',
+        'Fabricated lab test results and modified pathology markers',
+        'Altered prescription dates and unauthorized medication quantities',
+        'Forged physician license numbers and hospital stamp seals'
+      ],
+      highlight: 'Combats fraudulent health insurance claims and medical report falsifications.'
+    }
+  ];
 
   const algorithmLayers = [
     {
@@ -110,16 +244,28 @@ export default function LandingPage({ setActiveTab }) {
     }
   ];
 
-  // Continuous high-end automated slideshow timer (left to right) - Faster 2.5s pace
+  // Algorithms Slideshow Timer
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % algorithmLayers.length);
-    }, 2500);
+    }, 2800);
     return () => clearInterval(timer);
   }, [algorithmLayers.length]);
 
+  // Focused Domains Slideshow Timer
+  useEffect(() => {
+    if (!isDomainAutoPlay) return;
+    const domainTimer = setInterval(() => {
+      setActiveDomainIdx((prev) => (prev + 1) % focusedDomains.length);
+    }, 3800);
+    return () => clearInterval(domainTimer);
+  }, [isDomainAutoPlay, focusedDomains.length]);
+
   const activeLayer = algorithmLayers[currentSlide];
   const SlideIcon   = activeLayer.icon;
+
+  const currentDomain = focusedDomains[activeDomainIdx];
+  const DomainIcon = currentDomain.icon;
 
   return (
     <div className="space-y-24 pb-24 font-body">
@@ -183,15 +329,270 @@ export default function LandingPage({ setActiveTab }) {
               </button>
             </div>
           </div>
-
-
         </div>
       </section>
 
-      {/* 2. HOW SHERDETECT WORKS — HIGH-END AUTOMATED ALGORITHMIC CAROUSEL */}
+      {/* 2. ✨ FOCUSED DOMAINS: GLASSMORPHISM INTERACTIVE SLIDESHOW & SHOWCASE */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div className="text-center space-y-3 max-w-3xl mx-auto">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#97d700]/10 border border-[#97d700]/30 text-[#97d700] text-xs font-mono font-bold tracking-wider uppercase">
+            <Sparkle size={14} className="animate-spin text-[#97d700]" />
+            <span>Target Industry Coverage</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-headline font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Domains Focused by <span className="text-[#97d700]">Sher</span><span className="text-[#00E5FF]">Detect</span>
+          </h2>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-gray-300 leading-relaxed">
+            Tailored multi-layer forensic detection across critical enterprise and consumer document verticals.
+          </p>
+        </div>
+
+        {/* 6 Glassmorphic Domain Cards Grid (Matching the Exact Pastel Palette) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
+          {focusedDomains.map((domain, idx) => {
+            const IconComponent = domain.icon;
+            const isSelected = activeDomainIdx === idx;
+            return (
+              <motion.div
+                key={domain.id}
+                onClick={() => {
+                  setActiveDomainIdx(idx);
+                  setIsDomainAutoPlay(false);
+                }}
+                whileHover={{ scale: 1.025, y: -3 }}
+                whileTap={{ scale: 0.98 }}
+                className={`relative group cursor-pointer rounded-3xl p-6 sm:p-7 transition-all duration-300 backdrop-blur-xl border flex flex-col justify-between overflow-hidden shadow-xl
+                  ${isSelected
+                    ? `border-2 ${domain.borderColor} bg-gradient-to-br ${domain.glassBg} shadow-2xl dark:bg-slate-900/90 ring-2 ring-offset-2 ring-offset-slate-900 ring-${domain.accentColor}`
+                    : 'bg-white/80 dark:bg-slate-900/50 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20'
+                  }`}
+              >
+                {/* Glow Backdrop */}
+                <div 
+                  className={`absolute -top-12 -right-12 w-32 h-32 rounded-full blur-2xl transition-opacity duration-300 pointer-events-none ${isSelected ? 'opacity-40' : 'opacity-0 group-hover:opacity-20'}`}
+                  style={{ backgroundColor: domain.accentColor }}
+                />
+
+                {/* Top: Icon Tile & Selection Pulse */}
+                <div className="flex items-start justify-between">
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110 border
+                    ${isSelected
+                      ? 'bg-slate-900 text-white dark:bg-black/60 border-white/20'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white border-slate-200 dark:border-white/10'
+                    }`}
+                  >
+                    <IconComponent size={28} style={{ color: domain.accentColor }} />
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    {isSelected && (
+                      <span className="flex h-2.5 w-2.5 relative">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: domain.accentColor }}></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5" style={{ backgroundColor: domain.accentColor }}></span>
+                      </span>
+                    )}
+                    <span className="text-[10px] font-mono font-extrabold uppercase px-2.5 py-0.5 rounded-full border bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-slate-500 dark:text-gray-400">
+                      0{idx + 1}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Center: Title & Subtitle */}
+                <div className="mt-5 space-y-1.5">
+                  <h3 className={`font-headline font-black text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white group-hover:${domain.textColor} transition-colors`}>
+                    {domain.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm font-medium text-slate-600 dark:text-gray-300 leading-snug">
+                    {domain.subtitle}
+                  </p>
+                </div>
+
+                {/* Bottom: Micro Status Tag */}
+                <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-gray-400">
+                  <span className="font-bold flex items-center gap-1.5">
+                    <ShieldCheck size={13} style={{ color: domain.accentColor }} />
+                    Active Guard
+                  </span>
+                  <span className={`text-[10px] font-bold ${isSelected ? domain.textColor : 'text-slate-400'}`}>
+                    {isSelected ? 'INSPECTING' : 'CLICK TO VIEW'}
+                  </span>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Dynamic Glassmorphism Spotlight Banner for Selected Domain */}
+        <div 
+          onMouseEnter={() => setIsDomainAutoPlay(false)}
+          onMouseLeave={() => setIsDomainAutoPlay(true)}
+          className="max-w-6xl mx-auto relative rounded-3xl overflow-hidden border border-white/20 dark:border-white/10 shadow-2xl backdrop-blur-2xl bg-gradient-to-br from-slate-900/95 via-slate-950 to-slate-900 text-white p-7 sm:p-10 transition-all duration-500"
+        >
+          {/* Ambient Glow */}
+          <div 
+            className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-20 pointer-events-none transition-all duration-700"
+            style={{ backgroundColor: currentDomain.accentColor }}
+          />
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentDomain.id}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10"
+            >
+              {/* Left Column: Domain Info & Vectors */}
+              <div className="lg:col-span-7 space-y-6">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className={`text-xs font-mono font-black px-3.5 py-1 rounded-full border ${currentDomain.badgeBg}`}>
+                    DOMAIN {activeDomainIdx + 1} OF 6
+                  </span>
+                  <span className="text-xs font-mono text-cyan-300 px-3 py-1 rounded-full bg-slate-800/80 border border-white/10">
+                    ⚡ {currentDomain.stats}
+                  </span>
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div 
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center border shrink-0 shadow-xl"
+                    style={{ 
+                      backgroundColor: `${currentDomain.accentColor}20`,
+                      borderColor: `${currentDomain.accentColor}60`
+                    }}
+                  >
+                    <DomainIcon size={32} style={{ color: currentDomain.accentColor }} />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl sm:text-3xl font-headline font-black text-white tracking-tight">
+                      {currentDomain.title}
+                    </h3>
+                    <p className="text-sm font-medium text-gray-300 mt-0.5">
+                      {currentDomain.subtitle}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-sm sm:text-base text-gray-200 leading-relaxed font-body">
+                  {currentDomain.highlight}
+                </p>
+
+                {/* Fraud Attacks Prevented Box */}
+                <div className="bg-slate-950/80 rounded-2xl p-4 sm:p-5 border border-white/10 space-y-2.5 shadow-inner">
+                  <p className="text-[11px] font-mono uppercase tracking-wider font-extrabold flex items-center gap-2 text-red-400">
+                    <ShieldAlert size={14} className="text-red-400" /> Tamper Attacks Caught in this Sector:
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {currentDomain.fraudVectors.map((vec, i) => (
+                      <div key={i} className="flex items-start space-x-2 text-xs text-gray-300 leading-snug">
+                        <span className="text-red-400 font-bold shrink-0 mt-0.5">✕</span>
+                        <span>{vec}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Supported Document Types & Action */}
+              <div className="lg:col-span-5 bg-white/5 dark:bg-black/40 rounded-2xl p-6 sm:p-7 border border-white/10 space-y-5 backdrop-blur-xl">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <div className="flex items-center space-x-2 text-xs font-mono font-bold text-[#97d700]">
+                    <CheckCircle2 size={15} />
+                    <span>ACCEPTED DOCUMENT TYPES</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-gray-400">5 Formats</span>
+                </div>
+
+                <ul className="space-y-2.5">
+                  {currentDomain.docTypes.map((doc, idx) => (
+                    <li key={idx} className="flex items-center space-x-2.5 text-xs sm:text-sm text-gray-200">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#00E5FF] shrink-0" />
+                      <span>{doc}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Quick Action Button */}
+                <button
+                  onClick={() => setActiveTab('verification')}
+                  className="w-full py-3.5 px-5 rounded-xl font-headline font-black text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2.5 transition-all shadow-lg hover:scale-[1.02] active:scale-95 text-black"
+                  style={{
+                    background: `linear-gradient(to right, #97d700, #00E5FF)`,
+                    boxShadow: `0 0 20px rgba(0, 229, 255, 0.3)`
+                  }}
+                >
+                  <Sparkles size={16} />
+                  <span>Verify {currentDomain.title} File</span>
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Slideshow Bottom Navigation Controls */}
+          <div className="mt-8 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setIsDomainAutoPlay(!isDomainAutoPlay)}
+                className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition text-xs font-mono font-bold flex items-center gap-1.5 text-gray-300"
+                title={isDomainAutoPlay ? 'Pause Auto-Slideshow' : 'Resume Auto-Slideshow'}
+              >
+                {isDomainAutoPlay ? <Pause size={13} /> : <Play size={13} />}
+                <span>{isDomainAutoPlay ? 'Auto-Cycle Active' : 'Paused'}</span>
+              </button>
+              <span className="text-xs text-gray-500 font-mono">Hover to pause</span>
+            </div>
+
+            {/* Indicator Dots */}
+            <div className="flex items-center space-x-2">
+              {focusedDomains.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setActiveDomainIdx(i);
+                    setIsDomainAutoPlay(false);
+                  }}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    activeDomainIdx === i 
+                      ? 'w-8 bg-[#00E5FF]' 
+                      : 'w-2 bg-white/20 hover:bg-white/40'
+                  }`}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Prev / Next Arrows */}
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => {
+                  setActiveDomainIdx((prev) => (prev - 1 + focusedDomains.length) % focusedDomains.length);
+                  setIsDomainAutoPlay(false);
+                }}
+                className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition text-white"
+                aria-label="Previous Domain"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                onClick={() => {
+                  setActiveDomainIdx((prev) => (prev + 1) % focusedDomains.length);
+                  setIsDomainAutoPlay(false);
+                }}
+                className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition text-white"
+                aria-label="Next Domain"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. HOW SHERDETECT WORKS — HIGH-END AUTOMATED ALGORITHMIC CAROUSEL */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-3 max-w-3xl mx-auto">
-
           <h2 className="text-3xl sm:text-5xl font-headline font-extrabold text-slate-900 dark:text-white tracking-tight">
             How SHERDETECT Works
           </h2>
@@ -269,7 +670,7 @@ export default function LandingPage({ setActiveTab }) {
         </div>
       </section>
 
-      {/* 3. COMPARISON: BEFORE AI VS SHERDETECT */}
+      {/* 4. COMPARISON: BEFORE AI VS SHERDETECT */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs font-mono text-[#97d700] tracking-widest font-bold">FORENSIC EVOLUTION</span>
@@ -326,8 +727,7 @@ export default function LandingPage({ setActiveTab }) {
           </div>
         </div>
       </section>
-
-
     </div>
   );
 }
+
