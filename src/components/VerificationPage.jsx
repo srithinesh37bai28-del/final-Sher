@@ -315,6 +315,16 @@ export default function VerificationPage({ setActiveTab }) {
     }
   };
 
+  const handleExport = () => {
+    if (!scanResult) return;
+    const link = document.createElement('a');
+    link.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(scanResult, null, 2));
+    link.download = `SHERDETECT_Dossier_${Date.now()}.json`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
   // ── Execute Forensic Pipeline ──────────────────────────────────────────────
   const runScan = async (file) => {
     if (scanLockRef.current) return;
