@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 
-export default function DashboardPage({ setActiveTab, setSelectedReportId }) {
+export default function DashboardPage({ setActiveTab }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [liveScans, setLiveScans]   = useState([]);
   const [isLoading, setIsLoading]   = useState(true);
@@ -199,10 +199,7 @@ export default function DashboardPage({ setActiveTab, setSelectedReportId }) {
                     </td>
                     <td className="py-3.5 px-4 text-right">
                       <button
-                        onClick={() => {
-                          setSelectedReportId(item.id || idx);
-                          setActiveTab('fraud-reports');
-                        }}
+                        onClick={() => setActiveTab('verification')}
                         className="px-3 py-1 rounded-lg bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-gray-200 hover:bg-slate-200 dark:hover:bg-white/20 transition text-[11px] font-mono font-semibold"
                       >
                         Inspect Dossier
