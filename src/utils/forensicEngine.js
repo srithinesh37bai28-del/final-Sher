@@ -399,17 +399,12 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
     if (onProgress) onProgress(s);
   }
 
-  // 1. Extract Binary Metadata (Handles Images, PDF, & AI Video Media)
-  const metadata = await extractDocumentMetadata(file);
-
-  // 2. Perform Format-Aware ELA & Video Keyframe Temporal Variance Analysis
-  const elaAnalysis = await analyzeImageElaVariance(file);
-
-  // 3. Perform Gemini 2.5 Flash Multimodal Vision Inspection for all uploaded files
-  let geminiResult = null;
-  if (file) {
-    geminiResult = await analyzeDocumentWithGeminiVision(file);
-  }
+  // 1, 2 & 3: Run Binary Metadata Extraction, ELA Variance Analysis, and Gemini Vision PARALLEL IN LOCKSTEP for maximum speed!
+  const [metadata, elaAnalysis, geminiResult] = await Promise.all([
+    extractDocumentMetadata(file),
+    analyzeImageElaVariance(file),
+    file ? analyzeDocumentWithGeminiVision(file) : Promise.resolve(null)
+  ]);
 
   // 4. Extract 6D Feature Vector & Query Active Learning k-NN Embedding Engine
   // 4. Extract 6D Feature Vector & Run Trained ML Model Classifier + k-NN Active Learning Engine
