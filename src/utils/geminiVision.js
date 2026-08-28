@@ -95,7 +95,7 @@ Respond strictly in valid JSON format:
 }`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: 'gemini-1.5-flash',
       contents: [
         { text: prompt },
         { inlineData: { mimeType, data: base64Data } }
@@ -103,9 +103,15 @@ Respond strictly in valid JSON format:
     });
 
     const responseText = response.text || '';
-    // Clean JSON formatting
-    const cleanedText = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+    // Robustly extract JSON from markdown code fences or raw JSON
+    const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)```/) || responseText.match(/(\{[\s\S]*\})/);
+    const cleanedText = jsonMatch ? jsonMatch[1].trim() : responseText.trim();
     const parsedJSON = JSON.parse(cleanedText);
+
+    // Sanity-clamp riskScore to 0-100 integer
+    if (typeof parsedJSON.riskScore === 'number') {
+      parsedJSON.riskScore = Math.max(0, Math.min(100, Math.round(parsedJSON.riskScore)));
+    }
 
     console.log('✨ Gemini Multimodal Vision Analysis Complete:', parsedJSON);
     return parsedJSON;

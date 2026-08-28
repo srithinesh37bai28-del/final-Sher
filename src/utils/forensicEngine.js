@@ -433,12 +433,17 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
   let isAiGenerated = metadata.isAiGenerated || elaAnalysis.isSynthetic;
 
   if (geminiResult) {
+    // Gemini Multimodal Vision is the highest-authority signal
     isForged = geminiResult.isForged;
     isAiGenerated = geminiResult.isAiGenerated;
   } else if (explicitForged !== null && explicitForged !== undefined) {
     isForged = explicitForged;
   } else {
-    isForged = metadata.tamperedHeader || elaAnalysis.isTampered || mlPrediction.isForged;
+    // Physical forensic pipeline is the authority — ML alone cannot flag a clean document.
+    // Require at least ONE physical signal (ELA tampering OR metadata tampering) to agree.
+    const physicalEvidence = metadata.tamperedHeader || elaAnalysis.isTampered;
+    const mlAgreesForged   = mlPrediction.isForged && mlPrediction.riskScore >= 60;
+    isForged = physicalEvidence || (mlAgreesForged && mlPrediction.confidence > 70);
   }
 
   // 5. Dynamic Metric Layer Scores
@@ -465,13 +470,15 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
     semanticScore = 0;
   }
 
-  // Blend physical pipeline score with backend trained ML model weights & k-NN embedding
+  // Primary 4-pillar weighted risk score (physical forensic pipeline is the AUTHORITY)
   let riskScore = geminiResult
-    ? (geminiResult.riskScore || Math.round(visualEla * 0.30 + metaScore * 0.20 + ocrScore * 0.25 + semanticScore * 0.25))
+    ? (geminiResult.riskScore !== undefined ? geminiResult.riskScore : Math.round(visualEla * 0.30 + metaScore * 0.20 + ocrScore * 0.25 + semanticScore * 0.25))
     : Math.round(visualEla * 0.30 + metaScore * 0.20 + ocrScore * 0.25 + semanticScore * 0.25);
 
-  if (!geminiResult && mlPrediction && mlPrediction.riskScore !== undefined) {
-    riskScore = Math.round(riskScore * 0.50 + mlPrediction.riskScore * 0.50);
+  // Only blend ML prediction when the physical pipeline also sees meaningful risk (>8%).
+  // This prevents the ML's prior from inflating scores on genuinely clean documents.
+  if (!geminiResult && mlPrediction && mlPrediction.riskScore !== undefined && riskScore > 8) {
+    riskScore = Math.round(riskScore * 0.75 + mlPrediction.riskScore * 0.25);
   }
 
   const authConfidence = Math.max(1, Math.min(100, 100 - riskScore));
