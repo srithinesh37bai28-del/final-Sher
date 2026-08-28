@@ -39,8 +39,6 @@ export default function App() {
         {activeTab === 'landing'       && <LandingPage setActiveTab={setActiveTab} />}
         {activeTab === 'dashboard'     && <DashboardPage setActiveTab={setActiveTab} />}
         {activeTab === 'verification'  && <VerificationPage setActiveTab={setActiveTab} />}
-        {activeTab === 'fraud-reports' && <FraudReportsPage setActiveTab={setActiveTab} />}
-        {activeTab === 'settings'      && <SettingsPage theme={theme} toggleTheme={toggleTheme} />}
       </main>
 
       <footer className="bg-slate-100 dark:bg-[#07090b] border-t border-slate-200 dark:border-white/5 py-6 text-xs font-mono text-slate-500 dark:text-gray-500 transition-colors">
