@@ -542,19 +542,27 @@ export default function VerificationPage({ setActiveTab }) {
 
           {/* Suspicious Regions */}
           {scanResult.suspiciousRegions.length > 0 && (
-            <div className="bg-white dark:bg-slate-900/60 border border-red-200 dark:border-white/10 rounded-2xl p-5">
-              <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest font-bold mb-3 flex items-center gap-2">
-                <AlertTriangle size={14} className="text-red-500" /> Suspicious Regions Detected
+            <div className="bg-slate-900/90 dark:bg-[#11161d] border border-red-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-4 text-white">
+              <p className="text-xs font-mono uppercase tracking-widest font-extrabold text-red-400 flex items-center gap-2 border-b border-red-500/20 pb-3">
+                <AlertTriangle size={16} className="text-red-500 animate-pulse" /> Suspicious Regions & Forensic Threat Flags
               </p>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {scanResult.suspiciousRegions.map(r => (
-                  <div key={r.id} className="bg-red-50 dark:bg-red-500/8 border border-red-200 dark:border-red-500/20 rounded-xl p-4">
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="font-semibold text-red-700 dark:text-red-300 text-sm">{r.title}</p>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 shrink-0">{r.severity}</span>
+                  <div key={r.id} className="bg-slate-950/80 dark:bg-[#090d12] border border-red-500/30 rounded-2xl p-5 space-y-2.5 shadow-lg">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="font-headline font-extrabold text-red-400 text-base sm:text-lg flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shrink-0" />
+                        <span>{r.title}</span>
+                      </p>
+                      <span className="text-xs font-mono px-3 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/40 font-extrabold shrink-0">
+                        {r.severity} THREAT
+                      </span>
                     </div>
-                    <p className="text-slate-600 dark:text-slate-400 text-xs mt-1">{r.description}</p>
-                    <p className="text-slate-500 text-[11px] mt-2"><span className="text-cyan-600 dark:text-cyan-400">Rec:</span> {r.recommendation}</p>
+                    <p className="text-gray-200 text-xs sm:text-sm leading-relaxed font-body">{r.description}</p>
+                    <div className="pt-2 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-cyan-300">
+                      <span className="font-bold text-[#00E5FF] uppercase">Rec:</span>
+                      <span className="text-gray-300">{r.recommendation}</span>
+                    </div>
                   </div>
                 ))}
               </div>

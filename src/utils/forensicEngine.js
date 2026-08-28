@@ -334,28 +334,18 @@ export async function extractDocumentMetadata(file) {
       }
     }
 
-    // 3. If file is a Video and no specific tag was found, check MP4 container atoms for synthetic encoding
-    if (isVideo && !hasTampering) {
-      hasTampering = true;
-      isAiGenerated = true;
-      detectedSoftware = 'Generative AI Video Model / Deepfake Render';
-      tamperReason = 'MP4/WEBM video container exhibits inter-frame neural diffusion synthesis & temporal ELA variance.';
-    }
-
-    // 4. Check for Digital Certificate / AI Image Canvas Patterns (Lack of Camera EXIF Markers)
-    if (!hasTampering && !isVideo) {
-      const hasCameraExif = text.includes('Make') || text.includes('Model') || text.includes('FocalLength') || text.includes('ExifIFDPointer');
-      const isDigitalFormat = ext === 'png' || ext === 'webp' || ext === 'pdf' || fileType.includes('png') || fileType.includes('webp') || fileType.includes('pdf');
-
-      if (!hasCameraExif || isDigitalFormat) {
-        detectedSoftware = 'Generative AI Certificate / Template Engine';
+    // 3. Check for specific AI certificate/template generators by filename or header keywords
+    if (!hasTampering) {
+      const aiTemplateKeywords = /ai_cert|cert_gen|synthetic|canvas_export|template_render|diffused|midjourney|dall-e|stablediff/i;
+      if (aiTemplateKeywords.test(text) || aiTemplateKeywords.test(fileNameLower)) {
+        detectedSoftware = 'Generative AI Certificate Engine';
         hasTampering = true;
         isAiGenerated = true;
-        tamperReason = 'Digital document / certificate lacks physical camera hardware EXIF tags & exhibits synthetic canvas structure.';
+        tamperReason = 'Binary stream contains synthetic certificate generator pattern or AI diffusion metadata.';
       }
     }
 
-    // 5. PDF Object Stream Modification Timestamp Verification
+    // 4. PDF Object Stream Modification Timestamp Verification
     if (!hasTampering && text.includes('ModDate') && text.includes('CreationDate')) {
       const modMatch = text.match(/ModDate\s*\(([^)]+)\)/);
       const createMatch = text.match(/CreationDate\s*\(([^)]+)\)/);
@@ -414,9 +404,9 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
   // 2. Perform Format-Aware ELA & Video Keyframe Temporal Variance Analysis
   const elaAnalysis = await analyzeImageElaVariance(file);
 
-  // 3. Perform Gemini 2.5 Flash Multimodal Vision Inspection if image/document
+  // 3. Perform Gemini 2.5 Flash Multimodal Vision Inspection for all uploaded files
   let geminiResult = null;
-  if (file && file.type && file.type.startsWith('image/')) {
+  if (file) {
     geminiResult = await analyzeDocumentWithGeminiVision(file);
   }
 
