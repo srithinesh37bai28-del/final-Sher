@@ -439,22 +439,104 @@ export default function VerificationPage({ setActiveTab }) {
         </button>
       )}
 
-      {/* Progress Ticker */}
+      {/* 🚀 ADVANCED CYBER-FORENSIC SCANNER HUD */}
       {progress.length > 0 && (
-        <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl p-5">
-          <div className="flex items-center gap-2 mb-3">
-            <Activity size={16} className="text-cyan-600 dark:text-cyan-400 animate-pulse" />
-            <span className="text-sm font-medium text-cyan-700 dark:text-cyan-300">Pipeline Progress</span>
-            <span className="ml-auto text-xs text-slate-500">{progress.length}/7 stages</span>
+        <div className="relative overflow-hidden rounded-3xl border border-[#00E5FF]/40 bg-gradient-to-br from-slate-900 via-[#0d141f] to-slate-950 text-white p-6 sm:p-7 shadow-2xl shadow-[#00E5FF]/10 backdrop-blur-2xl transition-all duration-300">
+          {/* Animated Sweeping Laser Beam Header */}
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#00E5FF] to-transparent animate-pulse" />
+
+          {/* Top Status Bar: Engine Title & Live Telemetry */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#97d700]/20 to-[#00E5FF]/20 border border-[#00E5FF]/50 flex items-center justify-center shadow-lg shadow-[#00E5FF]/20">
+                <Activity size={18} className="text-[#00E5FF] animate-spin" />
+              </div>
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="font-headline font-black text-base tracking-tight">
+                    <span className="text-[#97d700]">Sher</span><span className="text-[#00E5FF]">Detect</span>
+                  </span>
+                  <span className="text-[10px] font-mono font-black uppercase px-2 py-0.5 rounded-full bg-[#00E5FF]/15 text-[#00E5FF] border border-[#00E5FF]/30">
+                    FORENSIC PIPELINE ACTIVE
+                  </span>
+                </div>
+                <p className="text-[11px] font-mono text-gray-400">
+                  Multimodal 4-Pillar Algorithmic Synthesis
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3 text-xs font-mono">
+              <span className="text-gray-400">Stage</span>
+              <span className="font-bold text-[#97d700] text-sm px-2.5 py-0.5 rounded-lg bg-black/40 border border-white/10">
+                {progress.length} / 7
+              </span>
+              <span className="font-extrabold text-[#00E5FF] text-sm">
+                {Math.round((progress.length / 7) * 100)}%
+              </span>
+            </div>
           </div>
-          <div className="w-full bg-slate-200 dark:bg-white/10 h-2 rounded-full mb-3">
-            <div className="h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-500"
-              style={{ width: `${(progress.length / 7) * 100}%` }} />
+
+          {/* 7 Stage Interactive Matrix Nodes */}
+          <div className="grid grid-cols-7 gap-2 my-5">
+            {[
+              { id: 1, label: 'Ingest', short: '01' },
+              { id: 2, label: 'ELA', short: '02' },
+              { id: 3, label: 'EXIF', short: '03' },
+              { id: 4, label: 'OCR', short: '04' },
+              { id: 5, label: 'AI Valid', short: '05' },
+              { id: 6, label: 'Risk ML', short: '06' },
+              { id: 7, label: 'Dossier', short: '07' },
+            ].map((stg) => {
+              const isCompleted = progress.some(p => p.id > stg.id || (p.id === 7 && progress.length === 7));
+              const isCurrent = progress.length === stg.id;
+
+              return (
+                <div key={stg.id} className="flex flex-col items-center gap-1.5 text-center">
+                  <div 
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-xs font-mono font-bold transition-all duration-300 border
+                      ${isCompleted 
+                        ? 'bg-[#97d700]/20 border-[#97d700] text-[#97d700] shadow-md shadow-[#97d700]/20 scale-105'
+                        : isCurrent
+                        ? 'bg-[#00E5FF]/20 border-[#00E5FF] text-[#00E5FF] shadow-lg shadow-[#00E5FF]/40 animate-pulse scale-110'
+                        : 'bg-black/30 border-white/10 text-gray-500'
+                      }`}
+                  >
+                    {isCompleted ? <Check size={14} className="stroke-[3]" /> : stg.short}
+                  </div>
+                  <span className={`text-[9px] sm:text-[10px] font-mono truncate max-w-full font-semibold ${
+                    isCompleted ? 'text-[#97d700]' : isCurrent ? 'text-[#00E5FF] font-bold' : 'text-gray-500'
+                  }`}>
+                    {stg.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
-          {progress.slice(-1).map(s => (
-            <p key={s.id} className="text-xs text-slate-500 dark:text-slate-400">
-              <span className="text-cyan-700 dark:text-cyan-300 font-semibold">{s.stage}</span> — {s.title}
-            </p>
+
+          {/* Advanced Dual-Tone Gradient Progress Bar with Shimmer Light */}
+          <div className="relative w-full bg-black/50 h-3 rounded-full overflow-hidden border border-white/10 p-0.5 shadow-inner">
+            <div
+              className="h-full bg-gradient-to-r from-[#97d700] via-[#00E5FF] to-blue-400 rounded-full transition-all duration-300 relative shadow-[0_0_15px_rgba(0,229,255,0.6)]"
+              style={{ width: `${Math.max(8, (progress.length / 7) * 100)}%` }}
+            >
+              {/* Particle glow dot on leading edge */}
+              <span className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white shadow-[0_0_10px_#00E5FF] animate-ping opacity-75" />
+            </div>
+          </div>
+
+          {/* Live Telemetry Terminal Stream Box */}
+          {progress.slice(-1).map((s) => (
+            <div key={s.id} className="mt-4 p-3.5 rounded-xl bg-black/60 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 font-mono text-xs shadow-inner">
+              <div className="flex items-center space-x-2.5">
+                <span className="w-2 h-2 rounded-full bg-[#97d700] animate-ping" />
+                <span className="text-[#97d700] font-bold">[{s.stage}]</span>
+                <span className="text-white font-medium">{s.title}</span>
+              </div>
+              <span className="text-[11px] text-[#00E5FF] font-bold">
+                {s.detail || 'Processing raster tensors…'}
+              </span>
+            </div>
           ))}
         </div>
       )}
