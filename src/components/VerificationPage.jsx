@@ -296,6 +296,9 @@ export default function VerificationPage({ setActiveTab }) {
     } else {
       setPreviewUrl(null);
     }
+
+    // Auto-trigger forensic pipeline scan immediately on file load
+    setTimeout(() => runScan(file), 50);
   };
 
   const handleDrop = (e) => {
@@ -427,7 +430,7 @@ export default function VerificationPage({ setActiveTab }) {
       )}
 
       {/* Progress Ticker */}
-      {isScanning && progress.length > 0 && (
+      {progress.length > 0 && (
         <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-3">
             <Activity size={16} className="text-cyan-600 dark:text-cyan-400 animate-pulse" />
