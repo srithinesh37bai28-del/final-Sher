@@ -15,7 +15,7 @@
 import { supabase } from './supabaseClient';
 import { extractFeatureVector, predictWithLearnedEmbeddings } from './continuousLearning';
 import { analyzeDocumentWithGeminiVision } from './geminiVision';
-import { predictWithTrainedMLModel } from './mlModelTrainer';
+import { predictWithTrainedMLModel, updateModelWeightsOnline } from './mlModelTrainer';
 
 /**
  * Real client-side ELA heatmap rasterizer for HTML5 Canvas
@@ -565,6 +565,9 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
     sha256Hash,
     analyzedAt: new Date().toISOString(),
   };
+
+  // Automatic Online Machine Learning Training Step on Every Scan!
+  updateModelWeightsOnline(featureVector, isForged ? 1 : 0);
 
   // Auto-save scan dossier to Supabase
   saveScanToSupabase(dossier);
