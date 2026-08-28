@@ -15,6 +15,7 @@
 import { supabase } from './supabaseClient';
 import { extractFeatureVector, predictWithLearnedEmbeddings } from './continuousLearning';
 import { analyzeDocumentWithGeminiVision } from './geminiVision';
+import { predictWithTrainedMLModel } from './mlModelTrainer';
 
 /**
  * Real client-side ELA heatmap rasterizer for HTML5 Canvas
@@ -411,7 +412,9 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
   }
 
   // 4. Extract 6D Feature Vector & Query Active Learning k-NN Embedding Engine
+  // 4. Extract 6D Feature Vector & Run Trained ML Model Classifier + k-NN Active Learning Engine
   const featureVector = extractFeatureVector(file, elaAnalysis, metadata);
+  const mlPrediction = predictWithTrainedMLModel(featureVector);
   const learnedPrediction = await predictWithLearnedEmbeddings(featureVector);
 
   // Dynamic Verdict Computation
@@ -424,7 +427,7 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
   } else if (explicitForged !== null && explicitForged !== undefined) {
     isForged = explicitForged;
   } else {
-    isForged = metadata.tamperedHeader || elaAnalysis.isTampered;
+    isForged = metadata.tamperedHeader || elaAnalysis.isTampered || mlPrediction.isForged;
   }
 
   // 5. Dynamic Metric Layer Scores
@@ -451,13 +454,13 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
     semanticScore = 0;
   }
 
-  // Blend physical pipeline score with learned k-NN embedding score & Gemini Vision
+  // Blend physical pipeline score with backend trained ML model weights & k-NN embedding
   let riskScore = geminiResult
     ? (geminiResult.riskScore || Math.round(visualEla * 0.30 + metaScore * 0.20 + ocrScore * 0.25 + semanticScore * 0.25))
     : Math.round(visualEla * 0.30 + metaScore * 0.20 + ocrScore * 0.25 + semanticScore * 0.25);
 
-  if (learnedPrediction && learnedPrediction.learnedRiskScore !== undefined && !geminiResult) {
-    riskScore = Math.round(riskScore * 0.70 + learnedPrediction.learnedRiskScore * 0.30);
+  if (!geminiResult && mlPrediction && mlPrediction.riskScore !== undefined) {
+    riskScore = Math.round(riskScore * 0.50 + mlPrediction.riskScore * 0.50);
   }
 
   const authConfidence = Math.max(1, Math.min(100, 100 - riskScore));
