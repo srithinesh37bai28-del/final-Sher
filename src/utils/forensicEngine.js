@@ -445,15 +445,21 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
   ];
 
   for (const s of stages) {
-    await new Promise(r => setTimeout(r, 160));
+    await new Promise(r => setTimeout(r, 85));
     if (onProgress) onProgress(s);
   }
+
+  // Fast timeout wrapper for Gemini API to ensure pipeline NEVER hangs or delays
+  const geminiVisionWithTimeout = file ? Promise.race([
+    analyzeDocumentWithGeminiVision(file),
+    new Promise(resolve => setTimeout(() => resolve(null), 2500))
+  ]) : Promise.resolve(null);
 
   // 1, 2, 3 & Hash: Run Metadata, ELA, Gemini Vision and SHA-256 Hash PARALLEL IN LOCKSTEP!
   const [metadata, elaAnalysis, geminiResult, sha256Hash] = await Promise.all([
     extractDocumentMetadata(file),
     analyzeImageElaVariance(file),
-    file ? analyzeDocumentWithGeminiVision(file) : Promise.resolve(null),
+    geminiVisionWithTimeout,
     computeFileSha256(file)
   ]);
 
