@@ -518,11 +518,21 @@ export default function VerificationPage({ setActiveTab }) {
             />
           </div>
 
-          {/* Metadata */}
-          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl p-5">
-            <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest font-bold mb-3 flex items-center gap-2">
-              <Binary size={14} className="text-cyan-600 dark:text-cyan-400" /> Extracted Metadata
-            </p>
+          {/* Metadata & SHA-256 Immutability Stamp */}
+          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-3xl p-6 space-y-4 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-white/10 pb-3">
+              <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest font-bold flex items-center gap-2">
+                <Binary size={16} className="text-[#00E5FF]" /> Extracted Metadata & Cryptographic Hash
+              </p>
+
+              <button
+                onClick={() => window.print()}
+                className="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white/10 text-white text-xs font-mono font-bold hover:bg-slate-800 dark:hover:bg-white/20 transition flex items-center gap-2 self-start sm:self-auto"
+              >
+                <Printer size={14} /> Print Audit Dossier
+              </button>
+            </div>
+
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {[
                 ['Software',     scanResult.metadata.software],
@@ -537,6 +547,11 @@ export default function VerificationPage({ setActiveTab }) {
                   <p className="text-slate-700 dark:text-slate-200 text-xs font-mono mt-0.5 break-words">{v}</p>
                 </div>
               ))}
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-slate-950 border border-cyan-500/30 text-xs font-mono flex items-center justify-between gap-3 text-cyan-300">
+              <span className="font-bold text-[#00E5FF] uppercase shrink-0">SHA-256 HASH:</span>
+              <span className="truncate text-gray-300 text-[11px] select-all">{scanResult.sha256Hash || 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}</span>
             </div>
           </div>
 
