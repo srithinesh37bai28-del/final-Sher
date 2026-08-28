@@ -7,5 +7,20 @@ export default defineConfig({
   server: {
     port: 3000,
     open: false
+  },
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-core': ['react', 'react-dom', 'framer-motion'],
+          'vendor-icons': ['lucide-react'],
+          'vendor-cloud': ['@supabase/supabase-js', '@google/genai']
+        }
+      }
+    }
   }
 })
