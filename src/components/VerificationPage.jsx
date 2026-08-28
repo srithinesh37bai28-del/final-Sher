@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import {
   Upload, ShieldAlert, ShieldCheck, Download, RefreshCw, FileText,
-  AlertTriangle, Layers, Binary, Cpu, CheckCircle2, XCircle, Sparkles, Activity, Info, HelpCircle, PieChart as PieIcon, LayoutGrid, Check, Activity as ChartIcon
+  AlertTriangle, Layers, Binary, Cpu, CheckCircle2, XCircle, Sparkles, Activity, Info, HelpCircle, PieChart as PieIcon, LayoutGrid, Check, Activity as ChartIcon, Printer
 } from 'lucide-react';
 import ElaCanvasInspector from './ElaCanvasInspector';
 import { runSherdetectPipeline } from '../utils/forensicEngine';
