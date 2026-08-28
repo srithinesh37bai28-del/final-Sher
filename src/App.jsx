@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import LandingPage from './components/LandingPage';
 import DashboardPage from './components/DashboardPage';
 import VerificationPage from './components/VerificationPage';
+import FraudReportsPage from './components/FraudReportsPage';
 import SettingsPage from './components/SettingsPage';
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
         {activeTab === 'landing'       && <LandingPage setActiveTab={setActiveTab} />}
         {activeTab === 'dashboard'     && <DashboardPage setActiveTab={setActiveTab} />}
         {activeTab === 'verification'  && <VerificationPage setActiveTab={setActiveTab} />}
+        {activeTab === 'fraud-reports' && <FraudReportsPage setActiveTab={setActiveTab} />}
         {activeTab === 'settings'      && <SettingsPage theme={theme} toggleTheme={toggleTheme} />}
       </main>
 
