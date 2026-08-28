@@ -251,8 +251,6 @@ function ForensicPieChartAnalysis({ layerScores, overallRisk, isForged }) {
   );
 }
 
-// ─── Main Component ──────────────────────────────────────────────────────────
-
 export default function VerificationPage({ setActiveTab }) {
   const [isScanning, setIsScanning]   = useState(false);
   const [scanResult, setScanResult]   = useState(null);
@@ -262,8 +260,17 @@ export default function VerificationPage({ setActiveTab }) {
   const [isForged, setIsForged]       = useState(false);
   const [isBinaryFormat, setIsBinaryFormat] = useState(false);
   const [dragging, setDragging]       = useState(false);
+  const [mousePos, setMousePos]       = useState({ x: 400, y: 150 });
   const fileInputRef                  = useRef(null);
   const scanLockRef                   = useRef(false);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
 
   // ── File Selection ─────────────────────────────────────────────────────────
   const handleFile = (file) => {
@@ -278,45 +285,50 @@ export default function VerificationPage({ setActiveTab }) {
                      fileNameLower.endsWith('.tiff') ||
                      fileNameLower.endsWith('.tif');
 
-    const url = isBinary ? null : URL.createObjectURL(file);
-
-    const forgeHints = ['forge', 'fake', 'tamper', 'photoshop', 'forged', 'doctored', 'spliced', 'hacked', 'replica', 'fake_', 'ai_', 'generated', 'midjourney', 'dalle', 'synthetic', 'deepfake', 'gen_'];
-    const isExplicitForge = forgeHints.some(h => fileNameLower.includes(h));
-
-    setCurrentFile(file);
-    setPreviewUrl(url);
-    setIsForged(isExplicitForge ? true : null);
     setIsBinaryFormat(isBinary);
-    setProgress([]);
+    setCurrentFile(file);
     setScanResult(null);
+
+    if (!isBinary && fileTypeLower.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => setPreviewUrl(e.target.result);
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewUrl(null);
+    }
   };
 
-  const handleInputChange = (e) => { const f = e.target.files[0]; if (f) handleFile(f); };
-  const handleDrop = (e) => { e.preventDefault(); setDragging(false); const f = e.dataTransfer.files[0]; if (f) handleFile(f); };
-
-  const handleExport = () => {
-    if (!scanResult) return;
-    const link = document.createElement('a');
-    link.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(scanResult, null, 2));
-    link.download = `SHERDETECT_Dossier_${Date.now()}.json`;
-    document.body.appendChild(link); link.click(); link.remove();
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFile(e.dataTransfer.files[0]);
+    }
   };
 
-  // ── Run Pipeline ───────────────────────────────────────────────────────────
+  const handleInputChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      handleFile(e.target.files[0]);
+    }
+  };
+
+  // ── Execute Forensic Pipeline ──────────────────────────────────────────────
   const runScan = async (file) => {
     if (scanLockRef.current) return;
     scanLockRef.current = true;
 
     setIsScanning(true);
-    setScanResult(null);
     setProgress([]);
+    setScanResult(null);
 
     try {
-      const result = await runSherdetectPipeline(
-        file,
-        null,
-        (step) => setProgress(prev => [...prev, step])
-      );
+      const result = await runSherdetectPipeline(file, null, (s) => {
+        setProgress(prev => {
+          if (prev.some(x => x.id === s.id)) return prev;
+          return [...prev, s];
+        });
+      });
+
       setScanResult(result);
       setIsForged(result.isForged);
     } finally {
@@ -334,38 +346,60 @@ export default function VerificationPage({ setActiveTab }) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 space-y-8 font-body">
+    <div 
+      onMouseMove={handleMouseMove}
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 space-y-8 font-body relative overflow-hidden"
+    >
+      {/* Dynamic Ambient Spotlight Glow following Mouse */}
+      <div 
+        className="pointer-events-none absolute -inset-px transition-opacity duration-300 rounded-3xl z-0"
+        style={{
+          background: `radial-gradient(650px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0, 229, 255, 0.12), rgba(151, 215, 0, 0.05) 40%, transparent 80%)`
+        }}
+      />
 
       {/* Header */}
-      <div className="border-b border-slate-200 dark:border-white/10 pb-6">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
-          <ShieldCheck className="text-cyan-600 dark:text-cyan-400" size={28} />
+      <div className="border-b border-slate-200 dark:border-white/10 pb-6 relative z-10">
+        <div className="flex items-center space-x-2 text-xs font-mono mb-1.5 font-bold">
+          <span className="w-2 h-2 rounded-full bg-[#97d700] animate-pulse" />
+          <span>REAL-TIME MULTIMODAL FORENSIC SCANNER</span>
+        </div>
+        <h1 className="text-3xl font-headline font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
+          <ShieldCheck className="text-[#00E5FF]" size={32} />
           Document Forensic Verification
         </h1>
-        <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm">
-          Upload any document (PNG, JPG, WEBP, TIFF, PDF) — SHERDETECT performs 4-layer forensic analysis: Visual ELA · EXIF Metadata · OCR Geometry · AI Semantic Validation
+        <p className="text-slate-600 dark:text-gray-300 mt-1.5 text-sm leading-relaxed max-w-3xl">
+          Upload any document or video (<span className="font-mono text-[#00E5FF]">PNG, JPG, WEBP, TIFF, PDF, MP4, WEBM</span>) — <span className="font-bold text-[#97d700]">Sher</span><span className="font-bold text-[#00E5FF]">Detect</span> performs 4-layer forensic analysis: Visual ELA · EXIF Metadata · OCR Geometry · AI Multimodal Reasoning
         </p>
       </div>
 
-      {/* Upload Zone */}
+      {/* Interactive Cyber Animated Dropzone */}
       <div
         onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
         onDragLeave={() => setDragging(false)}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`cursor-pointer rounded-2xl border-2 border-dashed transition-all p-10 text-center
+        className={`relative z-10 cursor-pointer rounded-3xl border-2 border-dashed transition-all duration-300 p-10 sm:p-14 text-center overflow-hidden shadow-2xl backdrop-blur-xl
           ${ dragging
-            ? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-400/10 scale-[1.01]'
-            : 'border-slate-300 dark:border-white/20 hover:border-cyan-500/60 hover:bg-slate-50 dark:hover:bg-white/5'}`}
+            ? 'border-[#00E5FF] bg-[#00E5FF]/10 scale-[1.02] shadow-[#00E5FF]/20'
+            : 'border-slate-300 dark:border-cyan-500/30 bg-white/80 dark:bg-slate-900/80 hover:border-[#00E5FF] hover:bg-slate-50 dark:hover:bg-slate-900/95 hover:shadow-[#00E5FF]/15 hover:scale-[1.005]'}`}
       >
+        {/* Corner Neon Grid Accents */}
+        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[#97d700]/60 rounded-tl-2xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#00E5FF]/60 rounded-tr-2xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#00E5FF]/60 rounded-bl-2xl pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#97d700]/60 rounded-br-2xl pointer-events-none" />
+
         <input ref={fileInputRef} type="file" className="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp,.tiff,.tif,.bmp,.mp4,.webm,.mov,.avi,.mkv,.flv"
           onChange={handleInputChange} />
-        <div className="flex flex-col items-center gap-3 pointer-events-none">
-          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center border ${ dragging ? 'bg-cyan-100 dark:bg-cyan-400/20 border-cyan-400/50' : 'bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/15'}`}>
-            <Upload size={30} className={dragging ? 'text-cyan-600 dark:text-cyan-300' : 'text-slate-400'} />
+
+        <div className="flex flex-col items-center gap-4 pointer-events-none relative z-10">
+          <div className={`w-20 h-20 rounded-3xl flex items-center justify-center border transition-all duration-300 shadow-xl ${ dragging ? 'bg-[#00E5FF]/20 border-[#00E5FF] scale-110 shadow-[#00E5FF]/40' : 'bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-white/10 group-hover:scale-105'}`}>
+            <Upload size={36} className={dragging ? 'text-[#00E5FF] animate-bounce' : 'text-[#00E5FF]'} />
           </div>
-          <div>
-            <p className="text-slate-900 dark:text-white font-semibold text-lg">
+
+          <div className="space-y-1">
+            <p className="text-slate-900 dark:text-white font-headline font-extrabold text-xl tracking-wide">
               {currentFile ? currentFile.name : 'Drop document or video file here or click to browse'}
             </p>
             <p className="text-slate-500 text-sm mt-1">
