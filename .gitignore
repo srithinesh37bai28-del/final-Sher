@@ -1,0 +1,19 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Production build output
+dist
+build
+
+# Environment variables & API keys (SECURITY CRITICAL)
+.env
+.env.local
+.env.*.local
+
+# IDE & OS files
+.DS_Store
+Thumbs.db
+.vscode
+.idea
+*.log

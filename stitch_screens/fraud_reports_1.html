@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fraud Report Detail | VeriScan AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-container": "#704900",
+                      "primary-container": "#97d700",
+                      "on-secondary": "#00363d",
+                      "on-primary-container": "#3d5900",
+                      "tertiary-fixed": "#ffddb3",
+                      "tertiary-fixed-dim": "#ffb950",
+                      "error-container": "#93000a",
+                      "surface-charcoal": "#1A1C1E",
+                      "on-primary": "#233600",
+                      "error": "#ffb4ab",
+                      "surface-variant": "#353534",
+                      "surface": "#131313",
+                      "background": "#131313",
+                      "on-secondary-fixed-variant": "#004f58",
+                      "cyber-blue": "#00E5FF",
+                      "surface-container-low": "#1c1b1b",
+                      "inverse-surface": "#e5e2e1",
+                      "surface-bright": "#393939",
+                      "secondary": "#bdf4ff",
+                      "tertiary-container": "#ffb644",
+                      "outline-variant": "#424935",
+                      "on-tertiary-fixed": "#291800",
+                      "outline": "#8c947b",
+                      "surface-dim": "#131313",
+                      "primary-fixed": "#b4f734",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-surface-variant": "#c2caaf",
+                      "secondary-fixed-dim": "#00daf3",
+                      "surface-container-high": "#2a2a2a",
+                      "on-primary-fixed-variant": "#354e00",
+                      "secondary-fixed": "#9cf0ff",
+                      "on-secondary-container": "#00616d",
+                      "on-tertiary-fixed-variant": "#624000",
+                      "tertiary": "#ffdaab",
+                      "primary": "#b2f432",
+                      "surface-glass": "rgba(255, 255, 255, 0.03)",
+                      "surface-container-highest": "#353534",
+                      "on-tertiary": "#452b00",
+                      "surface-tint": "#99d907",
+                      "on-surface": "#e5e2e1",
+                      "inverse-on-surface": "#313030",
+                      "inverse-primary": "#476800",
+                      "on-primary-fixed": "#131f00",
+                      "on-secondary-fixed": "#001f24",
+                      "on-background": "#e5e2e1",
+                      "surface-container": "#201f1f",
+                      "secondary-container": "#00e3fd",
+                      "primary-fixed-dim": "#99d907",
+                      "border-cyan": "rgba(0, 229, 255, 0.2)",
+                      "warning-amber": "#FFAB00",
+                      "fraud-alert": "#97D700",
+                      "on-error": "#690005"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "component-padding-x": "16px",
+                      "component-padding-y": "12px",
+                      "section-gap": "80px",
+                      "container-margin": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Manrope"
+                      ],
+                      "body-md": [
+                              "Manrope"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-sm": [
+                              "Manrope"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "data-heavy": [
+                              "Manrope"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "data-heavy": [
+                              "14px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(0, 229, 255, 0.3); /* cyber-blue glow */
+            box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.05);
+        }
+
+        /* Scan Line Animation */
+        @keyframes scanline {
+            0% { transform: translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
+
+        .scan-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, theme('colors.cyber-blue'), transparent);
+            box-shadow: 0 0 10px theme('colors.cyber-blue');
+            animation: scanline 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            z-index: 10;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.background');
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.surface-variant');
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.cyber-blue');
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md min-h-screen flex selection:bg-cyber-blue/30 selection:text-white">
+<!-- SideNavBar -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-screen z-40 bg-surface-charcoal dark:bg-surface-charcoal docked left-0 h-full w-64 border-r border-border-cyan flat no shadows translate-x-1 duration-200">
+<div class="p-6 pb-8 border-b border-white/5">
+<h1 class="font-headline-md text-headline-md font-black text-fraud-alert flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">security</span>
+                VeriScan Admin
+            </h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Enterprise Tier</p>
+</div>
+<div class="px-4 py-6">
+<button class="w-full bg-fraud-alert/10 hover:bg-fraud-alert/20 text-fraud-alert border border-fraud-alert/30 rounded flex items-center justify-center gap-2 py-3 transition-colors mb-6 shadow-[0_0_15px_rgba(151,215,0,0.1)]">
+<span class="material-symbols-outlined text-sm">add</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">New Analysis</span>
+</button>
+<ul class="space-y-1">
+<li>
+<a class="text-on-surface-variant flex items-center gap-3 p-4 hover:bg-surface-variant/50 hover:text-cyber-blue transition-colors rounded" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant flex items-center gap-3 p-4 hover:bg-surface-variant/50 hover:text-cyber-blue transition-colors rounded" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-sm text-label-sm">Analysis</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant flex items-center gap-3 p-4 hover:bg-surface-variant/50 hover:text-cyber-blue transition-colors rounded" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-label-sm text-label-sm">Verification</span>
+</a>
+</li>
+<li>
+<a class="bg-primary-container/10 text-primary border-r-4 border-primary font-bold flex items-center gap-3 p-4 rounded-l" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">report_problem</span>
+<span class="font-label-sm text-label-sm">Fraud Reports</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant flex items-center gap-3 p-4 hover:bg-surface-variant/50 hover:text-cyber-blue transition-colors rounded" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-auto p-4 border-t border-white/5">
+<ul class="space-y-1">
+<li>
+<a class="text-on-surface-variant flex items-center gap-3 p-3 hover:bg-surface-variant/50 hover:text-cyber-blue transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-label-sm text-label-sm">Help Center</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant flex items-center gap-3 p-3 hover:bg-surface-variant/50 hover:text-error transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span class="font-label-sm text-label-sm">Sign Out</span>
+</a>
+</li>
+</ul>
+<div class="mt-4 flex items-center gap-3 px-3">
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-white/20 object-cover" data-alt="A small, circular avatar portrait of a professional system administrator in a futuristic control room setting, moody lighting with neon cyan accents, corporate cybersecurity aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdzJD4ZN02wsd-qlR-RgPTgeusVRMV8QyQmpMAGZx0VQnaH6QTiiNlpCKOlH_Rt2vQTQWR1_syBlM3xIk7bkkfxXyO2YX04xlwoUyFO4a4Qt07dGmRhsmeVzv6R9TdcYdxnRfkjI5x48_bSFh07XSsF7jQ-5dk39cBTackSvT03mgvU6WFn1duscyG_uFVVdZTvXHnKsoMTKJyzNEc3GaiGXfBAuwmeiGuENJ4sVI3a_cGjHuTqFhzVg"/>
+<div>
+<p class="font-label-sm text-label-sm text-white">Admin User</p>
+<p class="text-[10px] text-on-surface-variant">ID: 849-XYZ</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 w-full flex flex-col min-h-screen">
+<!-- Header -->
+<header class="h-20 border-b border-white/10 px-gutter md:px-container-margin flex items-center justify-between bg-background/80 backdrop-blur-md sticky top-0 z-30">
+<div class="flex items-center gap-4">
+<button class="lg:hidden text-on-surface-variant hover:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div>
+<div class="flex items-center gap-2 text-sm text-on-surface-variant mb-1">
+<a class="hover:text-cyber-blue transition-colors" href="#">Reports</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-white">Case #FRD-2024-8992</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-white flex items-center gap-3">
+                        Investigation Detail
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-error/10 text-error border border-error/20">
+<span class="w-1.5 h-1.5 rounded-full bg-error mr-1.5 animate-pulse"></span>
+                            CRITICAL RISK
+                        </span>
+</h2>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="hidden md:flex items-center gap-2 px-4 py-2 rounded glass-panel text-on-surface-variant hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">download</span>
+<span class="font-label-sm text-label-sm">Export Report</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded bg-surface-variant/30 border border-cyber-blue/30 text-cyber-blue hover:bg-cyber-blue/10 transition-colors">
+<span class="material-symbols-outlined text-sm">refresh</span>
+<span class="font-label-sm text-label-sm">Request Re-scan</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-2 rounded bg-error text-white font-bold hover:bg-error/90 transition-colors shadow-[0_0_15px_rgba(255,180,171,0.2)]">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span class="font-label-sm text-label-sm text-on-error">Mark as Fraud</span>
+</button>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 p-gutter md:p-container-margin overflow-y-auto">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+<!-- Left Column: Document Analysis (Bento Grid Style) -->
+<div class="xl:col-span-8 space-y-6">
+<!-- Main Document View -->
+<div class="glass-panel rounded-lg p-6 flex flex-col h-[600px]">
+<div class="flex justify-between items-center mb-4 pb-4 border-b border-white/5">
+<h3 class="font-headline-md text-lg text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-cyber-blue">document_scanner</span>
+                                Visual Anomaly Map
+                            </h3>
+<div class="flex gap-2">
+<button class="p-1.5 rounded bg-surface-variant/50 text-on-surface-variant hover:text-white transition-colors"><span class="material-symbols-outlined text-sm">zoom_in</span></button>
+<button class="p-1.5 rounded bg-surface-variant/50 text-on-surface-variant hover:text-white transition-colors"><span class="material-symbols-outlined text-sm">zoom_out</span></button>
+</div>
+</div>
+<div class="flex-1 relative bg-surface-container-lowest rounded border border-white/5 overflow-hidden scan-container flex items-center justify-center p-8 group">
+<div class="scan-line h-full w-full"></div>
+<!-- Document Container -->
+<div class="relative w-full max-w-lg aspect-[1.58/1] bg-surface-bright rounded shadow-2xl overflow-hidden ring-1 ring-white/10 group-hover:ring-cyber-blue/30 transition-all duration-500">
+<img alt="Scanned Document" class="w-full h-full object-cover opacity-80" data-alt="A highly detailed close-up of a fraudulent identification card resting on a dark carbon-fiber textured surface. The ID has subtle visible anomalies like mismatched fonts and a slightly misaligned hologram. Cold, clinical lighting emphasizes the textures, high-tech forensic photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5hLS1mI-8gFqnaBpeg2vcEXYHXKHwuMVaCQ0gbCetSYQE--iHBkW5G02FNpkokmN-e003gLgzule0y95ejCb0NQEpuNJGpy2X3sExhXVKXPwey-RrTnwLc5cBH2Ksrp8EOjKFWKWtKeNAY0O6th0BpvPpRdxwpKbT0LQbwx1O4Q9jZsCSutNTkwn5dGycf9hQCC85PCj5fc2vDRQCXHCdQ8TYZ9twyuoWzLsgUKhnpJt_VpA_Q2SmZw"/>
+<!-- Anomaly Overlays (Simulated) -->
+<div class="absolute top-[15%] left-[10%] w-[25%] h-[35%] border-2 border-error bg-error/10 rounded cursor-pointer group/tooltip">
+<div class="absolute -top-2 -right-2 w-4 h-4 bg-error rounded-full flex items-center justify-center shadow-[0_0_10px_rgba(255,180,171,0.5)]">
+<span class="material-symbols-outlined text-[10px] text-on-error">priority_high</span>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-surface-container-highest border border-error/50 rounded shadow-xl opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-20">
+<p class="font-label-sm text-[10px] text-error mb-1">Physical Tampering</p>
+<p class="text-xs text-white">Edge pixel blending indicates face replacement overlay.</p>
+</div>
+</div>
+<div class="absolute bottom-[20%] right-[15%] w-[30%] h-[15%] border-2 border-warning-amber bg-warning-amber/10 rounded cursor-pointer group/tooltip">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-surface-container-highest border border-warning-amber/50 rounded shadow-xl opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-20">
+<p class="font-label-sm text-[10px] text-warning-amber mb-1">Font Anomaly</p>
+<p class="text-xs text-white">Kerning mismatch detected in Date of Birth field.</p>
+</div>
+</div>
+<!-- Hologram Check Overlay -->
+<div class="absolute top-[40%] right-[10%] w-[15%] h-[20%] border-2 border-cyber-blue/50 bg-cyber-blue/5 border-dashed rounded"></div>
+</div>
+</div>
+</div>
+<!-- Micro Analysis Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Metadata Extraction -->
+<div class="glass-panel rounded-lg p-5">
+<h4 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">code_blocks</span>
+                                Extracted Metadata
+                            </h4>
+<div class="space-y-3 font-data-heavy text-xs">
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-on-surface-variant">Document Type</span>
+<span class="text-white">National ID Card</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-on-surface-variant">Issuing Authority</span>
+<span class="text-white">Republic of █████</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-on-surface-variant">MRZ Verification</span>
+<span class="text-error flex items-center gap-1"><span class="material-symbols-outlined text-xs">close</span> FAILED (Checksum)</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-on-surface-variant">EXIF Data</span>
+<span class="text-warning-amber flex items-center gap-1"><span class="material-symbols-outlined text-xs">warning</span> Edited in Photoshop CS6</span>
+</div>
+</div>
+</div>
+<!-- Network Graph Placeholder -->
+<div class="glass-panel rounded-lg p-5 relative overflow-hidden">
+<h4 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4 flex items-center gap-2 relative z-10">
+<span class="material-symbols-outlined text-sm">hub</span>
+                                Identity Graph Linkages
+                            </h4>
+<div class="absolute inset-0 top-12 opacity-50">
+<!-- Simulated graph background -->
+<img alt="Network Graph" class="w-full h-full object-cover grayscale opacity-30 mix-blend-screen" data-alt="A dark, abstract visualization of a data network graph. Glowing cyan and red nodes connected by thin white lines against a pitch-black background, suggesting complex digital relationships and synthetic identity tracing. High-contrast, minimalist tech style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSjcX6Qiq1twnNahf_iOyk9AZq2yzu61aTcup_RYjD62Y5iJ3OungCV1fUvb6yo_IEA6ZnTekGl_4aGijXGL36BpTpejaWYWtUxix8LxJOHg9-w7tuCV7GUow3PH2CDyob_miiFlebNCJjETmm7JpBhnjMZOrPn3zdGr1RHCrt4Zt5LnBz4EKuuN-4M7T70zPRPg2v8dHdiGwESqgENMaybbJdh5kyg9J_VKkEvalbfe-xTRb-O3KDWA"/>
+</div>
+<div class="relative z-10 mt-8 text-center space-y-2">
+<span class="inline-block p-3 rounded-full bg-error/20 text-error mb-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group_remove</span>
+</span>
+<p class="text-white font-bold">Synthetic Cluster Detected</p>
+<p class="text-xs text-on-surface-variant">This identity shares device fingerprints with 14 other flagged applications.</p>
+<button class="mt-4 text-cyber-blue text-xs hover:underline inline-flex items-center gap-1">
+                                    View Full Graph <span class="material-symbols-outlined text-[10px]">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: AI Scoring & Tools -->
+<div class="xl:col-span-4 space-y-6">
+<!-- AI Assessment Panel -->
+<div class="glass-panel rounded-lg p-6 relative overflow-hidden border-error/30 shadow-[0_0_30px_rgba(255,180,171,0.05)]">
+<div class="absolute top-0 right-0 w-32 h-32 bg-error/10 rounded-bl-full blur-2xl"></div>
+<h3 class="font-headline-md text-lg text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+                            AI Confidence Score
+                        </h3>
+<!-- Main Score -->
+<div class="flex items-end gap-4 mb-8">
+<div class="text-6xl font-display-lg text-error tracking-tighter leading-none">98<span class="text-3xl text-on-surface-variant ml-1">%</span></div>
+<div class="pb-1">
+<div class="text-sm font-bold text-error uppercase tracking-widest">Fraud Probability</div>
+<div class="text-xs text-on-surface-variant mt-1">Model: VeriGuard-v4.2</div>
+</div>
+</div>
+<!-- Score Breakdown -->
+<div class="space-y-5">
+<!-- Digital Forgery -->
+<div>
+<div class="flex justify-between text-xs mb-1 font-data-heavy">
+<span class="text-white">Digital Forgery</span>
+<span class="text-error">99%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full w-[99%] shadow-[0_0_5px_rgba(255,180,171,0.5)]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-1">Deepfake/Copy-move detection triggered.</p>
+</div>
+<!-- Physical Tampering -->
+<div>
+<div class="flex justify-between text-xs mb-1 font-data-heavy">
+<span class="text-white">Physical Tampering</span>
+<span class="text-warning-amber">72%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-warning-amber rounded-full w-[72%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-1">Possible laminate lifting detected.</p>
+</div>
+<!-- Synthetic Identity -->
+<div>
+<div class="flex justify-between text-xs mb-1 font-data-heavy">
+<span class="text-white">Synthetic Identity</span>
+<span class="text-error">85%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full w-[85%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-1">High correlation with known fraud rings.</p>
+</div>
+</div>
+</div>
+<!-- Action Log / Notes -->
+<div class="glass-panel rounded-lg p-6 flex flex-col h-[350px]">
+<h3 class="font-headline-md text-lg text-white mb-4 pb-2 border-b border-white/5 flex items-center gap-2">
+<span class="material-symbols-outlined text-cyber-blue">history</span>
+                            Audit Trail
+                        </h3>
+<div class="flex-1 overflow-y-auto pr-2 space-y-4">
+<div class="flex gap-3">
+<div class="mt-0.5"><span class="material-symbols-outlined text-sm text-error">warning</span></div>
+<div>
+<p class="text-xs text-white">System Flagged Application</p>
+<p class="text-[10px] text-on-surface-variant">Today, 10:42 AM</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="mt-0.5"><span class="material-symbols-outlined text-sm text-cyber-blue">person_search</span></div>
+<div>
+<p class="text-xs text-white">Assigned to Manual Review (Tier 2)</p>
+<p class="text-[10px] text-on-surface-variant">Today, 10:45 AM</p>
+</div>
+</div>
+<div class="flex gap-3 opacity-50">
+<div class="mt-0.5"><span class="material-symbols-outlined text-sm text-on-surface-variant">input</span></div>
+<div>
+<p class="text-xs text-white">Application Received</p>
+<p class="text-[10px] text-on-surface-variant">Today, 10:41 AM</p>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-white/5">
+<input class="w-full bg-surface-container-lowest border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-cyber-blue focus:ring-1 focus:ring-cyber-blue/50 placeholder-on-surface-variant" placeholder="Add reviewer note..." type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Spacer for footer -->
+<div class="h-section-gap"></div>
+</div>
+</main>
+</body></html>

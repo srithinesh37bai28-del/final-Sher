@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VeriScan AI - Precision Document Intelligence</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#704900",
+                    "primary-container": "#97d700",
+                    "on-secondary": "#00363d",
+                    "on-primary-container": "#3d5900",
+                    "tertiary-fixed": "#ffddb3",
+                    "tertiary-fixed-dim": "#ffb950",
+                    "error-container": "#93000a",
+                    "surface-charcoal": "#1A1C1E",
+                    "on-primary": "#233600",
+                    "error": "#ffb4ab",
+                    "surface-variant": "#353534",
+                    "surface": "#131313",
+                    "background": "#131313",
+                    "on-secondary-fixed-variant": "#004f58",
+                    "cyber-blue": "#00E5FF",
+                    "surface-container-low": "#1c1b1b",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-bright": "#393939",
+                    "secondary": "#bdf4ff",
+                    "tertiary-container": "#ffb644",
+                    "outline-variant": "#424935",
+                    "on-tertiary-fixed": "#291800",
+                    "outline": "#8c947b",
+                    "surface-dim": "#131313",
+                    "primary-fixed": "#b4f734",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-surface-variant": "#c2caaf",
+                    "secondary-fixed-dim": "#00daf3",
+                    "surface-container-high": "#2a2a2a",
+                    "on-primary-fixed-variant": "#354e00",
+                    "secondary-fixed": "#9cf0ff",
+                    "on-secondary-container": "#00616d",
+                    "on-tertiary-fixed-variant": "#624000",
+                    "tertiary": "#ffdaab",
+                    "primary": "#b2f432",
+                    "surface-glass": "rgba(255, 255, 255, 0.03)",
+                    "surface-container-highest": "#353534",
+                    "on-tertiary": "#452b00",
+                    "surface-tint": "#99d907",
+                    "on-surface": "#e5e2e1",
+                    "inverse-on-surface": "#313030",
+                    "inverse-primary": "#476800",
+                    "on-primary-fixed": "#131f00",
+                    "on-secondary-fixed": "#001f24",
+                    "on-background": "#e5e2e1",
+                    "surface-container": "#201f1f",
+                    "secondary-container": "#00e3fd",
+                    "primary-fixed-dim": "#99d907",
+                    "border-cyan": "rgba(0, 229, 255, 0.2)",
+                    "warning-amber": "#FFAB00",
+                    "fraud-alert": "#97D700",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "component-padding-x": "16px",
+                    "component-padding-y": "12px",
+                    "section-gap": "80px",
+                    "container-margin": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "body-lg": [
+                            "Manrope"
+                    ],
+                    "body-md": [
+                            "Manrope"
+                    ],
+                    "headline-md": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "label-sm": [
+                            "Manrope"
+                    ],
+                    "headline-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "display-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "data-heavy": [
+                            "Manrope"
+                    ]
+            },
+            "fontSize": {
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "data-heavy": [
+                            "14px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Custom Styles for Glow and Animations */
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(151, 215, 0, 0.3); /* Fraud Alert Glow */
+            box-shadow: inset 0 0 10px rgba(151, 215, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #97D700;
+            color: #131313;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 15px rgba(151, 215, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            border: 1px solid #00E5FF;
+            color: #00E5FF;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: rgba(0, 229, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        .scan-line-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #00E5FF, transparent);
+            animation: scan 3s infinite linear;
+            box-shadow: 0 0 10px #00E5FF;
+        }
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen selection:bg-fraud-alert selection:text-background">
+<!-- TopAppBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-gutter h-20 bg-surface-glass backdrop-blur-md border-b border-white/10 shadow-sm transition-all duration-300 hidden md:flex">
+<div class="flex items-center gap-8">
+<a class="font-headline-lg text-headline-lg font-bold text-primary tracking-tighter" href="#">
+                VeriScan AI
+            </a>
+<div class="hidden lg:flex items-center gap-6">
+<a class="font-label-sm text-label-sm text-primary border-b-2 border-primary font-bold py-2" href="#">Platform</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 py-2 px-3 rounded scale-95 active:scale-90" href="#">Solutions</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 py-2 px-3 rounded scale-95 active:scale-90" href="#">Resources</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 py-2 px-3 rounded scale-95 active:scale-90" href="#">About</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors duration-300">Login</button>
+<button class="font-label-sm text-label-sm btn-primary px-6 py-2.5 rounded-full font-bold tracking-wide flex items-center gap-2">
+                Get Started
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0; font-size: 16px;">arrow_forward</span>
+</button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden px-gutter md:px-container-margin py-section-gap">
+<div class="absolute inset-0 bg-grid-pattern opacity-50 z-0"></div>
+<!-- Radial gradient for depth -->
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-fraud-alert/5 via-background to-background z-0 pointer-events-none"></div>
+<div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<!-- Text Content -->
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-glass border border-fraud-alert/30">
+<span class="w-2 h-2 rounded-full bg-fraud-alert animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-fraud-alert">VeriScan AI Engine v4.0 Active</span>
+</div>
+<h1 class="font-display-lg text-display-lg md:text-[64px] md:leading-[1.1] font-bold text-on-surface tracking-tighter">
+                        Detect the <span class="text-transparent bg-clip-text bg-gradient-to-r from-fraud-alert to-cyber-blue">Invisible</span>.<br/> Prevent the Fraud.
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        Enterprise-grade identity verification powered by forensic AI. 
+                        We don't just check documents; we analyze micro-expressions, 
+                        detect deepfakes in real-time, and automate global compliance 
+                        with uncompromising precision.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="btn-primary font-label-sm text-label-sm px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2 group">
+                            Start Verification Scan
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" style="font-size: 18px;">fingerprint</span>
+</button>
+<button class="btn-secondary font-label-sm text-label-sm px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">
+                            View API Documentation
+                            <span class="material-symbols-outlined" style="font-size: 18px;">code</span>
+</button>
+</div>
+</div>
+<!-- Graphic/Visual -->
+<div class="relative h-[500px] w-full rounded-2xl border border-white/10 bg-surface-charcoal overflow-hidden group shadow-2xl">
+<div class="absolute inset-0 bg-[url('placeholder')] bg-cover bg-center opacity-40 mix-blend-luminosity group-hover:opacity-60 transition-opacity duration-700" data-alt="A highly detailed, cinematic rendering of a futuristic biometric scanning interface. The scene features a wireframe facial mesh overlaying a high-resolution portrait, illuminated by sweeping neon green and cyan laser light lines. The background is a dark, sophisticated command center environment with subtle HUD elements and data streams. High contrast, sharp focus, premium tech aesthetic."></div>
+<div class="scan-line-animation"></div>
+<!-- Floating Data Points -->
+<div class="absolute top-8 right-8 glass-card p-4 rounded-xl flex items-center gap-3 animate-[bounce_3s_ease-in-out_infinite]">
+<span class="material-symbols-outlined text-fraud-alert">verified_user</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Liveness Score</p>
+<p class="font-data-heavy text-data-heavy text-on-surface text-lg">99.98%</p>
+</div>
+</div>
+<div class="absolute bottom-8 left-8 glass-card p-4 rounded-xl flex items-center gap-3 animate-[bounce_4s_ease-in-out_infinite_reverse]">
+<span class="material-symbols-outlined text-cyber-blue">document_scanner</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Doc Analysis</p>
+<p class="font-data-heavy text-data-heavy text-on-surface text-lg">Authentic</p>
+</div>
+</div>
+<!-- Center Focus Reticle -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-32 h-32 border border-cyber-blue/50 rounded-full relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-cyber-blue rounded-full"></div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-cyber-blue rounded-full"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-2 h-2 bg-cyber-blue rounded-full"></div>
+<div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-2 h-2 bg-cyber-blue rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats / Social Proof -->
+<section class="py-12 border-y border-white/5 bg-surface-charcoal/50">
+<div class="max-w-7xl mx-auto px-gutter grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/5">
+<div>
+<p class="font-display-lg text-display-lg text-on-surface">500M+</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2">Identities Verified</p>
+</div>
+<div>
+<p class="font-display-lg text-display-lg text-on-surface">200+</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2">Countries Covered</p>
+</div>
+<div>
+<p class="font-display-lg text-display-lg text-on-surface">0.8s</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2">Avg. Processing Time</p>
+</div>
+<div>
+<p class="font-display-lg text-display-lg text-on-surface">99%</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2">Fraud Catch Rate</p>
+</div>
+</div>
+</section>
+<!-- Features Bento Grid -->
+<section class="py-section-gap px-gutter md:px-container-margin max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface mb-4">Precision Engineered Intelligence</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Our modular platform integrates seamlessly to provide contextual, continuous identity insights.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+<!-- Feature 1: Real-time AI (Large Card) -->
+<div class="md:col-span-2 glass-card rounded-2xl p-8 relative overflow-hidden group flex flex-col justify-end">
+<div class="absolute inset-0 bg-gradient-to-br from-cyber-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<span class="material-symbols-outlined text-cyber-blue absolute top-8 right-8 text-4xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2 relative z-10">Real-Time AI Analysis</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md relative z-10">
+                        Proprietary neural networks analyze ID documents and biometrics in milliseconds, flagging inconsistencies invisible to the human eye.
+                    </p>
+</div>
+<!-- Feature 2: Deepfake Detection -->
+<div class="glass-card rounded-2xl p-8 relative overflow-hidden group flex flex-col justify-end">
+<span class="material-symbols-outlined text-fraud-alert absolute top-8 right-8 text-4xl">face_retouching_off</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2 relative z-10 text-lg">Deepfake Prevention</h3>
+<p class="font-body-md text-body-md text-on-surface-variant relative z-10 text-sm">
+                        Advanced passive liveness detection thwarts injection attacks and sophisticated synthetic media.
+                    </p>
+</div>
+<!-- Feature 3: Global Coverage -->
+<div class="glass-card rounded-2xl p-8 relative overflow-hidden group flex flex-col justify-end">
+<span class="material-symbols-outlined text-cyber-blue absolute top-8 right-8 text-4xl">public</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2 relative z-10 text-lg">Global Document Coverage</h3>
+<p class="font-body-md text-body-md text-on-surface-variant relative z-10 text-sm">
+                        Support for over 5,000 document types across 200+ countries and territories.
+                    </p>
+</div>
+<!-- Feature 4: Automated Compliance (Large Card) -->
+<div class="md:col-span-2 glass-card rounded-2xl p-8 relative overflow-hidden group flex flex-col justify-end">
+<div class="absolute inset-0 bg-[url('placeholder')] bg-cover bg-center opacity-10 mix-blend-overlay group-hover:opacity-20 transition-opacity duration-500" data-alt="Abstract visualization of a highly structured database network in a dark theme environment. Glowing cyan and neon green nodes connected by precise, hair-line geometric lines. The aesthetic is extremely clean, suggesting organized compliance data and secure auditing trails. Minimalist cyber-security vibe."></div>
+<span class="material-symbols-outlined text-fraud-alert absolute top-8 right-8 text-4xl" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2 relative z-10">Automated KYC/AML Compliance</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md relative z-10">
+                        Streamline onboarding while maintaining rigorous regulatory adherence with customizable rules engines and secure audit trails.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Identity Graph Section (Image Emphasis) -->
+<section class="py-section-gap border-t border-white/5 relative overflow-hidden">
+<!-- Background ambient light -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyber-blue/5 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="max-w-7xl mx-auto px-gutter md:px-container-margin grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="order-2 lg:order-1 relative">
+<!-- Image Placeholder from Prompt Instruction -->
+<div class="relative w-full aspect-square max-w-md mx-auto">
+<img alt="Biometric Face Scan Visualization" class="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(151,215,0,0.2)]" src="https://lh3.googleusercontent.com/aida/AEtjO1UjqUV_vj17nvoVf8iAdG9byy5VY0j9xQcoJOMc973NG_47NjDzSCX-QwciwgYq6I-K9GTiQelFKOGVOBY2mT2WiNcIXdXBHrjmqZhVmdJ9HR7R_goSP7-NutoNw0q8tKh8j5hRR9r04blwjfctKM66aw9EGlbjx-rTkscUVmGeQOZq0pw1mfZ2gZhhM-9mkaQ1txUKWekJMihVpO0vhuGeOiPBHpap-KxPhnuiIEhwjrUPIr6YAyUahPs7"/>
+<!-- Overlay elements to match design system style -->
+<div class="absolute inset-0 border border-cyber-blue/20 rounded-full scale-105 animate-[spin_20s_linear_infinite] border-dashed"></div>
+<div class="absolute inset-0 border border-fraud-alert/20 rounded-full scale-110 animate-[spin_30s_linear_infinite_reverse]"></div>
+</div>
+</div>
+<div class="order-1 lg:order-2 space-y-6">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">The VeriScan <span class="text-cyber-blue">Identity Graph</span></h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                        Go beyond point-in-time checks. The VeriScan Identity Graph maps relationships between identities, devices, and behaviors across our global network. 
+                    </p>
+<ul class="space-y-4 pt-4">
+<li class="flex items-start gap-4 glass-card p-4 rounded-xl border-l-2 border-l-fraud-alert">
+<span class="material-symbols-outlined text-fraud-alert mt-1">hub</span>
+<div>
+<h4 class="font-data-heavy text-data-heavy text-on-surface mb-1">Cross-Platform Linkage</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Identify returning fraudsters attempting to use new credentials based on historical network data.</p>
+</div>
+</li>
+<li class="flex items-start gap-4 glass-card p-4 rounded-xl border-l-2 border-l-cyber-blue">
+<span class="material-symbols-outlined text-cyber-blue mt-1">timeline</span>
+<div>
+<h4 class="font-data-heavy text-data-heavy text-on-surface mb-1">Behavioral Anomalies</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Detect suspicious velocity and location mismatches instantly during the transaction lifecycle.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 px-gutter text-center relative overflow-hidden bg-surface-charcoal border-t border-white/5">
+<div class="absolute inset-0 bg-[url('placeholder')] bg-cover bg-center opacity-20 mix-blend-overlay" data-alt="A dark, abstract digital landscape representing secure data flow. Thin, illuminated geometric lines in neon green and cyan intersect over a deep charcoal background. The composition is dynamic and forward-moving, suggesting speed and advanced technological processing. Cinematic lighting, premium enterprise aesthetic."></div>
+<div class="relative z-10 max-w-3xl mx-auto space-y-8 glass-card p-12 rounded-3xl border-fraud-alert/20">
+<h2 class="font-display-lg text-display-lg font-bold text-on-surface">Ready to secure your onboarding?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                    Join industry leaders who trust VeriScan AI for flawless compliance and absolute fraud prevention.
+                </p>
+<button class="btn-primary font-label-sm text-label-sm px-10 py-5 rounded-full font-bold text-lg inline-flex items-center gap-3">
+                    Get Started Now
+                    <span class="material-symbols-outlined font-bold" style="font-size: 20px;">rocket_launch</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-gutter mt-section-gap flex flex-col md:flex-row justify-between items-center bg-background border-t border-white/5 text-on-background">
+<div class="flex flex-col items-center md:items-start gap-2 mb-6 md:mb-0">
+<span class="font-headline-md text-headline-md text-primary font-bold">VeriScan AI</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-sm">© 2024 VeriScan AI. All rights reserved. Precision Document Intelligence.</span>
+</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-fraud-alert transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-fraud-alert transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-fraud-alert transition-colors opacity-80 hover:opacity-100" href="#">Security Standards</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-fraud-alert transition-colors opacity-80 hover:opacity-100" href="#">API Documentation</a>
+</div>
+</footer>
+</body></html>

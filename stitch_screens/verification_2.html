@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Document Verification Flow - VeriScan AI</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Plus Jakarta Sans & Manrope -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#704900",
+                    "primary-container": "#97d700",
+                    "on-secondary": "#00363d",
+                    "on-primary-container": "#3d5900",
+                    "tertiary-fixed": "#ffddb3",
+                    "tertiary-fixed-dim": "#ffb950",
+                    "error-container": "#93000a",
+                    "surface-charcoal": "#1A1C1E",
+                    "on-primary": "#233600",
+                    "error": "#ffb4ab",
+                    "surface-variant": "#353534",
+                    "surface": "#131313",
+                    "background": "#131313",
+                    "on-secondary-fixed-variant": "#004f58",
+                    "cyber-blue": "#00E5FF",
+                    "surface-container-low": "#1c1b1b",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-bright": "#393939",
+                    "secondary": "#bdf4ff",
+                    "tertiary-container": "#ffb644",
+                    "outline-variant": "#424935",
+                    "on-tertiary-fixed": "#291800",
+                    "outline": "#8c947b",
+                    "surface-dim": "#131313",
+                    "primary-fixed": "#b4f734",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-surface-variant": "#c2caaf",
+                    "secondary-fixed-dim": "#00daf3",
+                    "surface-container-high": "#2a2a2a",
+                    "on-primary-fixed-variant": "#354e00",
+                    "secondary-fixed": "#9cf0ff",
+                    "on-secondary-container": "#00616d",
+                    "on-tertiary-fixed-variant": "#624000",
+                    "tertiary": "#ffdaab",
+                    "primary": "#b2f432",
+                    "surface-glass": "rgba(255, 255, 255, 0.03)",
+                    "surface-container-highest": "#353534",
+                    "on-tertiary": "#452b00",
+                    "surface-tint": "#99d907",
+                    "on-surface": "#e5e2e1",
+                    "inverse-on-surface": "#313030",
+                    "inverse-primary": "#476800",
+                    "on-primary-fixed": "#131f00",
+                    "on-secondary-fixed": "#001f24",
+                    "on-background": "#e5e2e1",
+                    "surface-container": "#201f1f",
+                    "secondary-container": "#00e3fd",
+                    "primary-fixed-dim": "#99d907",
+                    "border-cyan": "rgba(0, 229, 255, 0.2)",
+                    "warning-amber": "#FFAB00",
+                    "fraud-alert": "#97D700",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "component-padding-x": "16px",
+                    "component-padding-y": "12px",
+                    "section-gap": "80px",
+                    "container-margin": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "body-lg": [
+                            "Manrope"
+                    ],
+                    "body-md": [
+                            "Manrope"
+                    ],
+                    "headline-md": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "label-sm": [
+                            "Manrope"
+                    ],
+                    "headline-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "display-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "data-heavy": [
+                            "Manrope"
+                    ]
+            },
+            "fontSize": {
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "data-heavy": [
+                            "14px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+        },
+        },
+      }
+    </script>
+<style>
+        /* Custom Animations & Effects */
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, transparent, rgba(0, 229, 255, 0.8), transparent);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+            animation: scan 3s infinite linear;
+            z-index: 10;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .glow-pulse {
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 10px rgba(151, 215, 0, 0.2); }
+            to { box-shadow: 0 0 20px rgba(151, 215, 0, 0.6); }
+        }
+        
+        .glass-panel {
+            background: rgba(26, 28, 30, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .active-border-glow {
+            border-color: rgba(0, 229, 255, 0.5);
+            box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden selection:bg-cyber-blue selection:text-surface-charcoal">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-gutter h-20 bg-surface-glass backdrop-blur-md dark:bg-surface-glass border-b border-white/10 shadow-sm transition-all duration-300">
+<div class="flex items-center gap-8">
+<a class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary tracking-tighter" href="#">
+                VeriScan AI
+            </a>
+<nav class="hidden md:flex items-center gap-6">
+<!-- Platform is active for destination check context -->
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-lg font-body-md" href="#">Platform</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-lg font-body-md" href="#">Solutions</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-lg font-body-md" href="#">Resources</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 px-3 py-2 rounded-lg font-body-md" href="#">About</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-cyber-blue border border-cyber-blue hover:bg-cyber-blue/10 px-4 py-2 rounded-DEFAULT font-label-sm uppercase tracking-wider transition-all duration-200">Login</button>
+<button class="bg-fraud-alert text-surface-charcoal hover:shadow-[0_0_15px_rgba(151,215,0,0.4)] px-4 py-2 rounded-DEFAULT font-label-sm uppercase tracking-wider transition-all duration-200">Get Started</button>
+</div>
+</header>
+<!-- Side Navigation Shell -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-screen z-40 bg-surface-charcoal dark:bg-surface-charcoal border-r border-border-cyan docked left-0 h-full w-64 pt-24 pb-8 justify-between">
+<div class="flex flex-col gap-2 w-full px-4">
+<a class="text-on-surface-variant flex items-center gap-3 p-4 hover:bg-surface-variant/50 hover:text-cyber-blue transition-colors rounded-lg font-label-sm text-label-sm translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                Dashboard
+            </a>
+<a class="text-on-surface-variant flex items-center gap-3 p-4 hover:bg-surface-variant/50 hover:text-cyber-blue transition-colors rounded-lg font-label-sm text-label-sm translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">analytics</span>
+                Analysis
+            </a>
+<!-- Active State: Verification -->
+<a class="bg-primary-container/10 text-primary border-r-4 border-primary font-bold flex items-center gap-3 p-4 rounded-lg font-label-sm text-label-sm translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">fact_check</span>
+                Verification
+            </a>
+<a class="text-on-surface-variant flex items-center gap-3 p-4 hover:bg-surface-variant/50 hover:text-cyber-blue transition-colors rounded-lg font-label-sm text-label-sm translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">report_problem</span>
+                Fraud Reports
+            </a>
+<a class="text-on-surface-variant flex items-center gap-3 p-4 hover:bg-surface-variant/50 hover:text-cyber-blue transition-colors rounded-lg font-label-sm text-label-sm translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">settings</span>
+                Settings
+            </a>
+</div>
+<div class="px-6 flex flex-col gap-4 w-full">
+<button class="w-full border border-cyber-blue text-cyber-blue hover:bg-cyber-blue/10 py-3 rounded-DEFAULT font-label-sm uppercase tracking-wider transition-all duration-200">
+                New Analysis
+            </button>
+<div class="h-px bg-white/10 w-full my-2"></div>
+<a class="text-on-surface-variant flex items-center gap-3 p-2 hover:text-cyber-blue transition-colors rounded-lg font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">help</span>
+                Help Center
+            </a>
+<a class="text-on-surface-variant flex items-center gap-3 p-2 hover:text-cyber-blue transition-colors rounded-lg font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Sign Out
+            </a>
+<div class="flex items-center gap-3 mt-4 pt-4 border-t border-white/5">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A highly detailed close up portrait of a professional fintech compliance officer in a modern dark office setting. Crisp focus on the face, subtle cyber-blue ambient lighting reflecting off their skin, creating a sophisticated, high-tech corporate mood. The subject looks confident and sharp." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGUz63t71ObPEIwAZ9QeYHql3hlLt5RSiPJVaLgocpk-GM2-nFTpsm1i77OcZi3jTsflyJ85IAXHy4DOLAOlANz_KoNh5Ey_m2-pr1XNel6K7Uf18Ic5BLLieigCVRRkt9yQ8C-8vl812d_cEyOzvHWf6WDX8ZVETzU6IuZVLXd7DIwh1y5OAFqHdsCWQOdRT8y3ZM-ZNIGYFiKgeDInoQ9yJnpgfB_5sf0Y0mdY83GJTLFpVeV_9geA"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-on-surface">VeriScan Admin</span>
+<span class="text-[10px] text-cyber-blue uppercase tracking-widest">Enterprise Tier</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 lg:ml-64 px-gutter md:px-8 pb-section-gap min-h-screen flex flex-col max-w-[1600px] mx-auto">
+<!-- Page Header -->
+<div class="mb-8">
+<h1 class="font-display-lg text-display-lg text-on-surface mb-2">Identity Verification</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl">Advanced AI-driven document analysis and biometric liveness check.</p>
+</div>
+<!-- Progress Steps -->
+<div class="w-full flex items-center justify-between mb-12 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-px bg-white/10 -z-10"></div>
+<!-- Step 1: Completed -->
+<div class="flex flex-col items-center gap-3 bg-background px-4">
+<div class="w-10 h-10 rounded-full bg-surface-charcoal border border-fraud-alert flex items-center justify-center shadow-[0_0_15px_rgba(151,215,0,0.2)]">
+<span class="material-symbols-outlined text-fraud-alert text-[20px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-label-sm text-fraud-alert tracking-wider">1. UPLOAD ID</span>
+</div>
+<!-- Step 2: Active -->
+<div class="flex flex-col items-center gap-3 bg-background px-4">
+<div class="w-10 h-10 rounded-full bg-cyber-blue/10 border-2 border-cyber-blue flex items-center justify-center shadow-[0_0_20px_rgba(0,229,255,0.3)]">
+<span class="material-symbols-outlined text-cyber-blue text-[20px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">face</span>
+</div>
+<span class="font-label-sm text-cyber-blue tracking-wider">2. BIOMETRIC CHECK</span>
+</div>
+<!-- Step 3: Pending -->
+<div class="flex flex-col items-center gap-3 bg-background px-4">
+<div class="w-10 h-10 rounded-full bg-surface-charcoal border border-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">document_scanner</span>
+</div>
+<span class="font-label-sm text-on-surface-variant tracking-wider">3. AI ANALYSIS</span>
+</div>
+</div>
+<!-- Main Layout: Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[700px]">
+<!-- Center Focus: Scanning Interface (Spans 8 cols on desktop) -->
+<div class="lg:col-span-8 h-full glass-panel rounded-xl overflow-hidden relative flex flex-col active-border-glow">
+<!-- Card Header -->
+<div class="h-14 border-b border-white/10 flex items-center justify-between px-6 bg-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-cyber-blue">center_focus_strong</span>
+<h2 class="font-headline-md text-[18px] text-on-surface">Liveness Detection Active</h2>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-fraud-alert animate-pulse"></div>
+<span class="font-data-heavy text-fraud-alert text-[12px] uppercase">Processing</span>
+</div>
+</div>
+<!-- Scanning Area -->
+<div class="flex-1 relative bg-black flex items-center justify-center overflow-hidden">
+<!-- Base Biometric Image -->
+<img alt="Biometric Liveness Check" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida/AEtjO1UJ9EYwJgkmUs3alVsqOEnbH3ee830evW4snY3rZ9AeO6xio5k9lbjVM6D61JlSBQ0T1VKluvO9wbEAry3Lstai0ir21hg6flnd1frV6Yjdv6y1iduaNRRkK49ydwfG0DmpVywpwBQFq5gGdj4KVQyf8THjny7zxaf-xmvM655LcO2XMcpOSQtbhqPpWMk47cn1LUIbKh8HXMwsKk1ZLrhGaK7xXbENiMrSoiXunU5E37Nrx0ZYcXctdgcB"/>
+<!-- Scanning Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-charcoal/80 to-transparent z-10"></div>
+<div class="scan-line"></div>
+<!-- Facial Mesh Graphic Simulation -->
+<div class="absolute w-[400px] h-[400px] border border-cyber-blue/30 rounded-full flex items-center justify-center z-20">
+<div class="w-[300px] h-[300px] border border-cyber-blue/50 rounded-full flex items-center justify-center border-dashed animate-[spin_10s_linear_infinite]"></div>
+<div class="w-[200px] h-[200px] border border-cyber-blue/70 rounded-full absolute flex items-center justify-center">
+<!-- Focus Rectangles -->
+<div class="w-8 h-8 border-t-2 border-l-2 border-cyber-blue absolute -top-4 -left-4"></div>
+<div class="w-8 h-8 border-t-2 border-r-2 border-cyber-blue absolute -top-4 -right-4"></div>
+<div class="w-8 h-8 border-b-2 border-l-2 border-cyber-blue absolute -bottom-4 -left-4"></div>
+<div class="w-8 h-8 border-b-2 border-r-2 border-cyber-blue absolute -bottom-4 -right-4"></div>
+</div>
+</div>
+<!-- HUD Elements -->
+<div class="absolute top-6 left-6 z-30 font-data-heavy text-cyber-blue/80 text-[12px]">
+<p>SYST_VER: 4.9.1</p>
+<p>LATENCY: 12ms</p>
+<p>CONFIDENCE: 98.4%</p>
+</div>
+<div class="absolute bottom-6 right-6 z-30 flex items-center gap-2">
+<span class="material-symbols-outlined text-fraud-alert">verified_user</span>
+<span class="font-data-heavy text-fraud-alert">SECURE CONNECTION</span>
+</div>
+</div>
+</div>
+<!-- Side Panel: Real-time Checks (Spans 4 cols on desktop) -->
+<div class="lg:col-span-4 h-full flex flex-col gap-6">
+<!-- Document Preview Mini -->
+<div class="glass-panel rounded-xl p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-white/5 pb-2">
+<span class="font-label-sm text-on-surface-variant uppercase">Document Captured</span>
+<button class="text-cyber-blue text-[12px] hover:underline">View Full</button>
+</div>
+<div class="h-32 bg-surface-charcoal border border-white/10 rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" data-alt="A highly detailed close up of a generic modern passport data page lying flat. Crisp typography, intricate security patterns (guilloche) visible, with a soft blue scanning light sweeping across the document. The image is hyper-realistic, conveying advanced document security analysis." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwfsGFbvzPrA3MwYkYYrWm0gww7s_aJ6S5VYcA7HN-q04FkelFtRvxviWschM7z5_2Rsi91LAcVcWy0zGocTdCC_wgsHg8Y6aO18dFrERNswRzPLzYtv_do353Uf-4QCsgtH8gTTg1xKGwyVuxsQJL1Iu8UXu9V-vvFEQzZL10KmQ8sfwfHfvAl_Uo5m_yjZ1K07rMzDgJhsyMKFHT6THaREcfR25xVW1fQ54Klmwf-2xCK0iTyY1NOQ"/>
+<div class="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded font-data-heavy text-[10px] text-white flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-fraud-alert"></span> ID-PASSPORT
+                        </div>
+</div>
+</div>
+<!-- Analysis Log -->
+<div class="glass-panel rounded-xl flex-1 flex flex-col overflow-hidden">
+<div class="h-14 border-b border-white/10 flex items-center px-6 bg-white/5">
+<h3 class="font-label-sm text-on-surface tracking-wider uppercase">Live Analysis Log</h3>
+</div>
+<div class="p-6 flex flex-col gap-4 overflow-y-auto">
+<!-- Check Item 1: Success -->
+<div class="flex items-start gap-4">
+<div class="mt-1 w-6 h-6 rounded-full bg-fraud-alert/10 flex items-center justify-center shrink-0 border border-fraud-alert/30">
+<span class="material-symbols-outlined text-fraud-alert text-[14px]" data-weight="fill">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-data-heavy text-[14px] text-on-surface">Face Match</span>
+<span class="text-[12px] text-on-surface-variant mt-1">Comparing live feed to document photo. Match score: 99.2%.</span>
+<div class="w-full h-1 bg-surface-charcoal rounded-full mt-2 overflow-hidden">
+<div class="h-full bg-fraud-alert w-[99%]"></div>
+</div>
+</div>
+</div>
+<!-- Check Item 2: Active -->
+<div class="flex items-start gap-4">
+<div class="mt-1 w-6 h-6 rounded-full bg-cyber-blue/10 flex items-center justify-center shrink-0 border border-cyber-blue/50 animate-pulse">
+<span class="material-symbols-outlined text-cyber-blue text-[14px]">visibility</span>
+</div>
+<div class="flex flex-col">
+<span class="font-data-heavy text-[14px] text-cyber-blue">Liveness Detection</span>
+<span class="text-[12px] text-on-surface-variant mt-1">Analyzing micro-expressions and depth mapping...</span>
+<div class="w-full h-1 bg-surface-charcoal rounded-full mt-2 overflow-hidden">
+<div class="h-full bg-cyber-blue w-[45%] animate-[pulse_1s_infinite]"></div>
+</div>
+</div>
+</div>
+<!-- Check Item 3: Pending -->
+<div class="flex items-start gap-4 opacity-50">
+<div class="mt-1 w-6 h-6 rounded-full bg-surface-charcoal flex items-center justify-center shrink-0 border border-white/20">
+<span class="material-symbols-outlined text-on-surface-variant text-[14px]">spellcheck</span>
+</div>
+<div class="flex flex-col">
+<span class="font-data-heavy text-[14px] text-on-surface">Text Integrity (MRZ)</span>
+<span class="text-[12px] text-on-surface-variant mt-1">Pending scan completion.</span>
+</div>
+</div>
+<!-- Check Item 4: Pending -->
+<div class="flex items-start gap-4 opacity-50">
+<div class="mt-1 w-6 h-6 rounded-full bg-surface-charcoal flex items-center justify-center shrink-0 border border-white/20">
+<span class="material-symbols-outlined text-on-surface-variant text-[14px]">shield</span>
+</div>
+<div class="flex flex-col">
+<span class="font-data-heavy text-[14px] text-on-surface">Security Features</span>
+<span class="text-[12px] text-on-surface-variant mt-1">Hologram and UV check pending.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-fraud-alert text-surface-charcoal hover:shadow-[0_0_15px_rgba(151,215,0,0.4)] py-4 rounded-xl font-label-sm uppercase tracking-wider transition-all duration-200 mt-auto flex items-center justify-center gap-2 opacity-50 cursor-not-allowed">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+                    Finalize Analysis
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="w-full py-12 px-gutter mt-section-gap flex flex-col md:flex-row justify-between items-center bg-background dark:bg-background border-t border-white/5 lg:ml-64">
+<div class="mb-4 md:mb-0">
+<span class="font-headline-md text-headline-md text-primary block mb-2">VeriScan AI</span>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 VeriScan AI. All rights reserved. Precision Document Intelligence.</p>
+</div>
+<div class="flex flex-wrap gap-6 justify-center">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-fraud-alert opacity-80 hover:opacity-100 transition-opacity" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-fraud-alert opacity-80 hover:opacity-100 transition-opacity" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-fraud-alert opacity-80 hover:opacity-100 transition-opacity" href="#">Security Standards</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-fraud-alert opacity-80 hover:opacity-100 transition-opacity" href="#">API Documentation</a>
+</div>
+</footer>
+</body></html>
