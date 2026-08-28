@@ -5,7 +5,7 @@ import {
   FileSearch, Layers, Binary, SearchCheck, Scale, History, ShieldAlert,
   Flame, Crosshair, ChevronRight, ChevronLeft, Play, Pause, Check, AlertTriangle, 
   Activity, Briefcase, GraduationCap, Receipt, CreditCard, HeartPulse, FileText,
-  FileCheck2, Fingerprint, Award, FilePlus2, Sparkle
+  FileCheck2, Fingerprint, Award, FilePlus2, Sparkle, ShieldCheck
 } from 'lucide-react';
 
 export default function LandingPage({ setActiveTab }) {
