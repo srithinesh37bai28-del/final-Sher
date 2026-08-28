@@ -56,9 +56,9 @@ export default function SettingsPage({ theme, toggleTheme }) {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pb-20 font-body">
       {/* 1. HEADER */}
       <div className="border-b border-slate-200 dark:border-white/10 pb-6">
-        <div className="flex items-center space-x-2 text-xs font-mono text-[#00E5FF] mb-1.5 font-bold">
+        <div className="flex items-center space-x-2 text-xs font-mono mb-1.5 font-bold">
           <span className="w-2 h-2 rounded-full bg-[#97d700]"></span>
-          <span>SHERDETECT ENGINE CALIBRATION & PARAMETERS</span>
+          <span><span className="text-[#97d700]">SHER</span><span className="text-[#00E5FF]">DETECT</span> ENGINE CALIBRATION & PARAMETERS</span>
         </div>
         <h1 className="text-3xl font-headline font-extrabold text-slate-900 dark:text-white tracking-tight">
           Forensic Parameters & Machine Learning Trainer

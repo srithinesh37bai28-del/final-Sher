@@ -85,9 +85,9 @@ export default function FraudReportsPage({ setActiveTab }) {
       {/* 1. TOP HEADER & CASE TABS */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-white/10 pb-6">
         <div>
-          <div className="flex items-center space-x-2 text-xs font-mono text-[#FF3B30] mb-1.5 font-bold">
+          <div className="flex items-center space-x-2 text-xs font-mono mb-1.5 font-bold">
             <span className="w-2 h-2 rounded-full bg-[#FF3B30] animate-ping"></span>
-            <span>SHERDETECT FORENSIC CASEBOOK & DOSSIERS</span>
+            <span><span className="text-[#97d700]">SHER</span><span className="text-[#00E5FF]">DETECT</span> FORENSIC CASEBOOK & DOSSIERS</span>
           </div>
           <h1 className="text-3xl font-headline font-extrabold text-slate-900 dark:text-white flex items-center space-x-3">
             <span>Case Investigation Record</span>
