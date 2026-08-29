@@ -70,25 +70,27 @@ export async function analyzeDocumentWithGeminiVision(file) {
     const mimeType = file.type || 'image/png';
 
     const prompt = `You are SHERDETECT, an elite Forensic Document Intelligence Auditor. 
-Analyze this document/certificate/ID card image with extreme precision to determine whether it is GENUINE AUTHENTIC or a DIGITAL FORGERY / AI GENERATION.
+Analyze this document/certificate image with extreme precision for digital forgery, generative AI artifacts, or pixel tampering.
 
-IMPORTANT AUDIT GUIDELINES:
-1. AUTHENTIC PHYSICAL DOCUMENTS: Real camera photographs of physical identity cards (e.g. College/University Student IDs, Government IDs, Passports, Driver Licenses) in plastic pouches, on tables/fabric, or with natural camera lighting, real student photographs, real signatures, and legitimate institution details (e.g. Mepco Schlenk Engg. College) are VERIFIED AUTHENTIC (riskScore: 0 to 5%). Physical card wear, plastic reflections, or camera compression are NOT tampering.
-2. DIGITAL FORGERIES & AI GENERATED: If and only if you find actual digital tampering (e.g. mismatched fonts, spliced numbers/names, Photoshop copy-paste halos, AI-generated synthetic garbled text, impossible dates, or AI face diffusion artifacts), flag it as CRITICAL RISK (riskScore: 80 to 98%).
+Inspect for:
+1. Generative AI Synthetic Artifacts (Midjourney, DALL-E, Stable Diffusion, Canva AI, Template Engines, non-standard institutional certificate fonts, or artificial seal borders).
+2. Pixel-level text splicing, overwritten numbers, or altered dates/names.
+3. Font baseline shifts, kerning vector anomalies, or unaligned text glyphs.
+4. Digital editing traces or unnatural noise distribution.
 
 Respond strictly in valid JSON format:
 {
   "isForged": boolean,
   "isAiGenerated": boolean,
-  "riskScore": number (integer between 0 and 100, where 0-10 means genuine clean authentic),
+  "riskScore": number (integer between 0 and 100),
   "riskLevel": string ("VERIFIED AUTHENTIC (CLEAN)" or "CRITICAL RISK (AI-GENERATED SYNTHETIC FRAUD)" or "CRITICAL RISK (PIXEL SPLICING & OVERWRITING)"),
-  "detectedSoftware": string ("Direct Hardware Capture / Camera" for real photos, or "Generative AI Model / Diffusion Engine" or "Adobe Photoshop" if forged),
-  "forensicReasons": [ string array of 3-4 specific detailed audit findings explaining exactly why it is authentic or what specific flaw was found ],
+  "detectedSoftware": string (e.g. "Generative AI Certificate Model / Canva Engine" or "Adobe Photoshop" or "Direct Hardware Capture / Scanner"),
+  "forensicReasons": [ string array of 3-4 specific detailed findings ],
   "layerScores": {
-    "ela": number (0-10 for clean, 80-100 for forged),
-    "metadata": number (0-10 for clean, 80-100 for forged),
-    "ocr": number (0-10 for clean, 80-100 for forged),
-    "ai": number (0-10 for clean, 80-100 for forged)
+    "ela": number (0-100),
+    "metadata": number (0-100),
+    "ocr": number (0-100),
+    "ai": number (0-100)
   }
 }`;
 

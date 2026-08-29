@@ -314,23 +314,22 @@ export default function VerificationPage({
         onScanComplete({ file, preview: null, isBinary });
       }
     }
+
+    // Auto-trigger forensic pipeline scan immediately on file load
+    setTimeout(() => runScan(file, isBinary, generatedPreview), 50);
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     setDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const droppedFile = e.dataTransfer.files[0];
-      handleFile(droppedFile);
-      runScan(droppedFile);
+      handleFile(e.dataTransfer.files[0]);
     }
   };
 
   const handleInputChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      handleFile(selectedFile);
-      runScan(selectedFile);
+      handleFile(e.target.files[0]);
     }
   };
 
@@ -345,44 +344,36 @@ export default function VerificationPage({
   };
 
   // ── Execute Forensic Pipeline ──────────────────────────────────────────────
-  const runScan = async (fileToScan) => {
-    const targetFile = fileToScan || currentFile || sharedFile;
-    if (!targetFile) return;
+  const runScan = async (file, isBinary, preview) => {
+    if (scanLockRef.current) return;
+    scanLockRef.current = true;
 
     setIsScanning(true);
     setProgress([]);
     setScanResult(null);
 
     try {
-      const result = await runSherdetectPipeline(targetFile, null, (s) => {
+      const result = await runSherdetectPipeline(file, null, (s) => {
         setProgress(prev => {
           if (prev.some(x => x.id === s.id)) return prev;
           return [...prev, s];
         });
       });
 
-      console.log('✅ Scan Complete. Dossier received:', result);
       setScanResult(result);
       setIsForged(result.isForged);
       if (onScanComplete) {
         onScanComplete({
-          file: targetFile,
+          file: file || currentFile,
           result,
-          preview: previewUrl,
-          isBinary: isBinaryFormat,
+          preview: preview || previewUrl,
+          isBinary: isBinary !== undefined ? isBinary : isBinaryFormat,
           forged: result.isForged
         });
       }
-      setTimeout(() => {
-        const resultsEl = document.getElementById('forensic-results-section');
-        if (resultsEl) {
-          resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 150);
-    } catch (err) {
-      console.error('Scan execution error:', err);
     } finally {
       setIsScanning(false);
+      scanLockRef.current = false;
     }
   };
 
@@ -579,7 +570,7 @@ export default function VerificationPage({
 
       {/* Results Section */}
       {scanResult && (
-        <div id="forensic-results-section" className="space-y-6 animate-fade-in scroll-mt-24">
+        <div className="space-y-6 animate-fade-in">
 
           {/* Verdict Banner */}
           <div className={`rounded-2xl border p-6 ${riskBg[riskColor]}`}>

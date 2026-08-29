@@ -248,7 +248,7 @@ function evaluateGridVariance(baseData, compareData, w, h, url, resolve, isVideo
     mean > 2.5 && mean < 20.0 &&
     deltaVariance < 12.0;
 
-  const isTampered = isVideo || (deltaVariance > 32.0 && maxCell > 40.0);
+  const isTampered = isVideo || deltaVariance > 14.5 || maxCell > 22.0;
 
   resolve({
     isTampered: isTampered || isSyntheticAI,
@@ -263,7 +263,7 @@ function evaluateGridVariance(baseData, compareData, w, h, url, resolve, isVideo
 }
 
 /**
- * 2. Binary Metadata Inspector (128KB Header Stream)
+ * Pure binary ArrayBuffer header & EXIF/XMP stream inspector (Supports Images, Docs & Generative AI Videos)
  */
 export async function extractDocumentMetadata(file) {
   if (!file) {
@@ -366,6 +366,22 @@ export async function extractDocumentMetadata(file) {
       }
     }
 
+    // 5. MISSING CAMERA EXIF HEURISTIC — AI-generated photorealistic images have no camera Make/Model
+    // Real photographs always contain camera make/model strings in binary EXIF header.
+    // AI diffusion outputs (Midjourney, DALL-E, Stable Diffusion) do NOT embed camera EXIF.
+    if (!hasTampering && !isVideo) {
+      const hasCameraExif = /Make\x00|Model\x00|Canon|Nikon|Sony|Apple|iPhone|Samsung|Google Pixel|Fujifilm|Olympus|Panasonic|Leica|Camera Model|CameraModel|ExifIFD|GPS|ISOSpeedRatings|ShutterSpeed|FocalLength/i.test(text);
+      const hasNaturalNoise = /noise reduction|long exposure|RAW|DNG|CR2|NEF|ARW/i.test(text);
+      // If it has NO camera EXIF AND the file is a photorealistic JPEG or PNG (not a plain scan)
+      const isPhotorealisticSize = file.size > 250000; // > 250KB suggests rich photorealistic image
+      if (!hasCameraExif && !hasNaturalNoise && isPhotorealisticSize) {
+        detectedSoftware = 'Generative AI Image Synthesis (Midjourney / DALL-E / Stable Diffusion)';
+        hasTampering = true;
+        isAiGenerated = true;
+        tamperReason = 'No camera sensor EXIF data found. Photorealistic image lacks hardware capture signature — consistent with AI diffusion model generation (Midjourney, DALL-E, Stable Diffusion, Firefly).';
+      }
+    }
+
     // 4. PDF Object Stream Modification Timestamp Verification
     if (!hasTampering && text.includes('ModDate') && text.includes('CreationDate')) {
       const modMatch = text.match(/ModDate\s*\(([^)]+)\)/);
@@ -380,6 +396,7 @@ export async function extractDocumentMetadata(file) {
     console.warn('Metadata binary slice parse warning:', err);
   }
 
+  const now = new Date();
   const modifiedDate = now.toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
   const createdDate = hasTampering
     ? new Date(now.getTime() - 86400000 * 3).toISOString().replace('T', ' ').slice(0, 19) + ' UTC'
@@ -428,27 +445,24 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
     { id: 7, stage: '7. Dossier',         title: 'Compiling Explainable Forensic Dossier',        detail: 'Building suspicious region annotations & report summary.' },
   ];
 
-  // Start heavy async operations in parallel IMMEDIATELY!
+  for (const s of stages) {
+    await new Promise(r => setTimeout(r, 85));
+    if (onProgress) onProgress(s);
+  }
+
+  // Fast timeout wrapper for Gemini API to ensure pipeline NEVER hangs or delays
   const geminiVisionWithTimeout = file ? Promise.race([
     analyzeDocumentWithGeminiVision(file),
-    new Promise(resolve => setTimeout(() => resolve(null), 3800))
+    new Promise(resolve => setTimeout(() => resolve(null), 2500))
   ]) : Promise.resolve(null);
 
-  const backgroundTasks = Promise.all([
+  // 1, 2, 3 & Hash: Run Metadata, ELA, Gemini Vision and SHA-256 Hash PARALLEL IN LOCKSTEP!
+  const [metadata, elaAnalysis, geminiResult, sha256Hash] = await Promise.all([
     extractDocumentMetadata(file),
     analyzeImageElaVariance(file),
     geminiVisionWithTimeout,
     computeFileSha256(file)
   ]);
-
-  // Tick the HUD stages smoothly
-  for (const s of stages) {
-    if (onProgress) onProgress(s);
-    await new Promise(r => setTimeout(r, 65));
-  }
-
-  // Await parallel computation
-  const [metadata, elaAnalysis, geminiResult, sha256Hash] = await backgroundTasks;
 
   // 4. Extract 6D Feature Vector & Query Active Learning k-NN Embedding Engine
   // 4. Extract 6D Feature Vector & Run Trained ML Model Classifier + k-NN Active Learning Engine
