@@ -357,6 +357,9 @@ export default function VerificationPage({
         setProgress(prev => {
           if (prev.some(x => x.id === s.id)) return prev;
           return [...prev, s];
+        });
+      });
+
       setScanResult(result);
       setIsForged(result.isForged);
       if (onScanComplete) {
