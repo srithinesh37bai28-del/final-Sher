@@ -357,9 +357,6 @@ export default function VerificationPage({
         setProgress(prev => {
           if (prev.some(x => x.id === s.id)) return prev;
           return [...prev, s];
-        });
-      });
-
       setScanResult(result);
       setIsForged(result.isForged);
       if (onScanComplete) {
@@ -371,6 +368,12 @@ export default function VerificationPage({
           forged: result.isForged
         });
       }
+      setTimeout(() => {
+        const resultsEl = document.getElementById('forensic-results-section');
+        if (resultsEl) {
+          resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 120);
     } finally {
       setIsScanning(false);
       scanLockRef.current = false;
@@ -570,7 +573,7 @@ export default function VerificationPage({
 
       {/* Results Section */}
       {scanResult && (
-        <div className="space-y-6 animate-fade-in">
+        <div id="forensic-results-section" className="space-y-6 animate-fade-in scroll-mt-24">
 
           {/* Verdict Banner */}
           <div className={`rounded-2xl border p-6 ${riskBg[riskColor]}`}>

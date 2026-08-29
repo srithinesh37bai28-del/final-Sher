@@ -428,24 +428,27 @@ export async function runSherdetectPipeline(file, explicitForged, onProgress) {
     { id: 7, stage: '7. Dossier',         title: 'Compiling Explainable Forensic Dossier',        detail: 'Building suspicious region annotations & report summary.' },
   ];
 
-  for (const s of stages) {
-    await new Promise(r => setTimeout(r, 85));
-    if (onProgress) onProgress(s);
-  }
-
-  // Generous timeout wrapper for Gemini API to ensure deep multimodal vision analysis completes
+  // Start heavy async operations in parallel IMMEDIATELY!
   const geminiVisionWithTimeout = file ? Promise.race([
     analyzeDocumentWithGeminiVision(file),
-    new Promise(resolve => setTimeout(() => resolve(null), 8500))
+    new Promise(resolve => setTimeout(() => resolve(null), 3800))
   ]) : Promise.resolve(null);
 
-  // 1, 2, 3 & Hash: Run Metadata, ELA, Gemini Vision and SHA-256 Hash PARALLEL IN LOCKSTEP!
-  const [metadata, elaAnalysis, geminiResult, sha256Hash] = await Promise.all([
+  const backgroundTasks = Promise.all([
     extractDocumentMetadata(file),
     analyzeImageElaVariance(file),
     geminiVisionWithTimeout,
     computeFileSha256(file)
   ]);
+
+  // Tick the HUD stages smoothly
+  for (const s of stages) {
+    if (onProgress) onProgress(s);
+    await new Promise(r => setTimeout(r, 65));
+  }
+
+  // Await parallel computation
+  const [metadata, elaAnalysis, geminiResult, sha256Hash] = await backgroundTasks;
 
   // 4. Extract 6D Feature Vector & Query Active Learning k-NN Embedding Engine
   // 4. Extract 6D Feature Vector & Run Trained ML Model Classifier + k-NN Active Learning Engine
