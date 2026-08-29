@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import LandingPage from './components/LandingPage';
 import DashboardPage from './components/DashboardPage';
 import VerificationPage from './components/VerificationPage';
+import SherScannerPage from './components/SherScannerPage';
 import FraudReportsPage from './components/FraudReportsPage';
 import SettingsPage from './components/SettingsPage';
 
@@ -11,6 +12,21 @@ export default function App() {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('sherdetect_theme') || 'dark';
   });
+
+  // Shared Document Scan State for Instant Cross-Tab Inspection
+  const [currentFile, setCurrentFile] = useState(null);
+  const [scanResult, setScanResult] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [isForged, setIsForged] = useState(false);
+  const [isBinaryFormat, setIsBinaryFormat] = useState(false);
+
+  const handleScanComplete = ({ file, result, preview, isBinary, forged }) => {
+    if (file !== undefined) setCurrentFile(file);
+    if (result !== undefined) setScanResult(result);
+    if (preview !== undefined) setPreviewUrl(preview);
+    if (isBinary !== undefined) setIsBinaryFormat(isBinary);
+    if (forged !== undefined) setIsForged(forged);
+  };
 
   useEffect(() => {
     const root = document.documentElement;
@@ -38,7 +54,33 @@ export default function App() {
       <main className="flex-1 pt-6">
         {activeTab === 'landing'       && <LandingPage setActiveTab={setActiveTab} />}
         {activeTab === 'dashboard'     && <DashboardPage setActiveTab={setActiveTab} />}
-        {activeTab === 'verification'  && <VerificationPage setActiveTab={setActiveTab} />}
+        {activeTab === 'verification'  && (
+          <VerificationPage
+            setActiveTab={setActiveTab}
+            onScanComplete={handleScanComplete}
+            sharedFile={currentFile}
+            sharedResult={scanResult}
+            sharedPreview={previewUrl}
+            sharedIsForged={isForged}
+            sharedIsBinary={isBinaryFormat}
+          />
+        )}
+        {activeTab === 'sher-scanner'  && (
+          <SherScannerPage
+            setActiveTab={setActiveTab}
+            currentFile={currentFile}
+            scanResult={scanResult}
+            previewUrl={previewUrl}
+            isForged={isForged}
+            isBinaryFormat={isBinaryFormat}
+            onAnalyzeNewFile={(file, res) => handleScanComplete({
+              file,
+              result: res,
+              isBinary: (file.type || '').includes('pdf') || (file.name || '').endsWith('.pdf'),
+              forged: res?.isForged || false
+            })}
+          />
+        )}
       </main>
 
       <footer className="bg-slate-100 dark:bg-[#07090b] border-t border-slate-200 dark:border-white/5 py-6 text-xs font-mono text-slate-500 dark:text-gray-500 transition-colors">

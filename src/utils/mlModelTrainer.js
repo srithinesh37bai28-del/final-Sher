@@ -11,7 +11,7 @@
  * x6: AI Signature Footprint
  */
 
-import { supabase } from './supabaseClient';
+import { supabase } from './supabaseClient.js';
 
 // Seed Training Dataset (Authentic vs Forged Document Embeddings)
 const TRAINING_DATASET = [

@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  Shield, LayoutDashboard, SearchCheck,
+  Shield, LayoutDashboard, SearchCheck, Crosshair,
   Sun, Moon
 } from 'lucide-react';
 
@@ -8,6 +8,7 @@ export default function Navbar({ activeTab, setActiveTab, theme, toggleTheme }) 
   const navItems = [
     { id: 'landing',       label: 'Overview',           icon: Shield },
     { id: 'verification',  label: 'Verify Document',    icon: SearchCheck },
+    { id: 'sher-scanner',  label: 'Sher Scanner',       icon: Crosshair },
     { id: 'dashboard',     label: 'Forensic Dashboard', icon: LayoutDashboard },
   ];
 

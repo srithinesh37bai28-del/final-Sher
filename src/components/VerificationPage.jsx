@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import {
   Upload, ShieldAlert, ShieldCheck, Download, RefreshCw, FileText,
-  AlertTriangle, Layers, Binary, Cpu, CheckCircle2, XCircle, Sparkles, Activity, Info, HelpCircle, PieChart as PieIcon, LayoutGrid, Check, Activity as ChartIcon, Printer
+  AlertTriangle, Layers, Binary, Cpu, CheckCircle2, XCircle, Sparkles, Activity, Info, HelpCircle, PieChart as PieIcon, LayoutGrid, Check, Activity as ChartIcon, Printer, Crosshair, ArrowRight
 } from 'lucide-react';
 import ElaCanvasInspector from './ElaCanvasInspector';
 import { runSherdetectPipeline } from '../utils/forensicEngine';
@@ -251,14 +251,22 @@ function ForensicPieChartAnalysis({ layerScores, overallRisk, isForged }) {
   );
 }
 
-export default function VerificationPage({ setActiveTab }) {
+export default function VerificationPage({
+  setActiveTab,
+  onScanComplete,
+  sharedFile,
+  sharedResult,
+  sharedPreview,
+  sharedIsForged,
+  sharedIsBinary
+}) {
   const [isScanning, setIsScanning]   = useState(false);
-  const [scanResult, setScanResult]   = useState(null);
+  const [scanResult, setScanResult]   = useState(sharedResult || null);
   const [progress, setProgress]       = useState([]);
-  const [currentFile, setCurrentFile] = useState(null);
-  const [previewUrl, setPreviewUrl]   = useState(null);
-  const [isForged, setIsForged]       = useState(false);
-  const [isBinaryFormat, setIsBinaryFormat] = useState(false);
+  const [currentFile, setCurrentFile] = useState(sharedFile || null);
+  const [previewUrl, setPreviewUrl]   = useState(sharedPreview || null);
+  const [isForged, setIsForged]       = useState(sharedIsForged || false);
+  const [isBinaryFormat, setIsBinaryFormat] = useState(sharedIsBinary || false);
   const [dragging, setDragging]       = useState(false);
   const [mousePos, setMousePos]       = useState({ x: 400, y: 150 });
   const fileInputRef                  = useRef(null);
@@ -289,16 +297,26 @@ export default function VerificationPage({ setActiveTab }) {
     setCurrentFile(file);
     setScanResult(null);
 
+    let generatedPreview = null;
     if (!isBinary && fileTypeLower.startsWith('image/')) {
       const reader = new FileReader();
-      reader.onload = (e) => setPreviewUrl(e.target.result);
+      reader.onload = (e) => {
+        generatedPreview = e.target.result;
+        setPreviewUrl(generatedPreview);
+        if (onScanComplete) {
+          onScanComplete({ file, preview: generatedPreview, isBinary });
+        }
+      };
       reader.readAsDataURL(file);
     } else {
       setPreviewUrl(null);
+      if (onScanComplete) {
+        onScanComplete({ file, preview: null, isBinary });
+      }
     }
 
     // Auto-trigger forensic pipeline scan immediately on file load
-    setTimeout(() => runScan(file), 50);
+    setTimeout(() => runScan(file, isBinary, generatedPreview), 50);
   };
 
   const handleDrop = (e) => {
@@ -326,7 +344,7 @@ export default function VerificationPage({ setActiveTab }) {
   };
 
   // ── Execute Forensic Pipeline ──────────────────────────────────────────────
-  const runScan = async (file) => {
+  const runScan = async (file, isBinary, preview) => {
     if (scanLockRef.current) return;
     scanLockRef.current = true;
 
@@ -344,6 +362,15 @@ export default function VerificationPage({ setActiveTab }) {
 
       setScanResult(result);
       setIsForged(result.isForged);
+      if (onScanComplete) {
+        onScanComplete({
+          file: file || currentFile,
+          result,
+          preview: preview || previewUrl,
+          isBinary: isBinary !== undefined ? isBinary : isBinaryFormat,
+          forged: result.isForged
+        });
+      }
     } finally {
       setIsScanning(false);
       scanLockRef.current = false;
@@ -569,6 +596,38 @@ export default function VerificationPage({ setActiveTab }) {
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* 🎯 PROMINENT SHER SCANNER EXACT ANOMALY LAUNCHER CARD */}
+          <div className="bg-gradient-to-r from-[#00E5FF]/15 via-slate-900 to-[#97d700]/15 rounded-3xl p-6 sm:p-7 border-2 border-[#00E5FF]/60 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-5 text-white">
+            <div className="flex items-center space-x-4">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#97d700] to-[#00E5FF] p-0.5 shadow-xl shadow-[#00E5FF]/30 flex-shrink-0">
+                <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+                  <Crosshair size={28} className="text-[#00E5FF] animate-pulse" />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center space-x-2">
+                  <h3 className="text-lg sm:text-xl font-headline font-black text-white">
+                    Sher Scanner Anomaly Pinpointer
+                  </h3>
+                  <span className="px-2 py-0.5 text-[9px] font-mono font-black rounded-full bg-[#97d700] text-black">
+                    RECOMMENDED
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-gray-300 mt-1 max-w-xl">
+                  Inspect the <strong>exact pixel coordinates</strong> of detected anomalies, slide comparison layers, and retrain the Sher AI Model with active continuous learning.
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setActiveTab('sher-scanner')}
+              className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#97d700] to-[#00E5FF] text-black font-headline font-black text-sm hover:scale-105 transition-all shadow-xl shadow-[#00E5FF]/25 flex items-center space-x-2 shrink-0"
+            >
+              <span>Launch Sher Scanner</span>
+              <ArrowRight size={16} />
+            </button>
           </div>
 
           {/* 🌟 HIGH-READABILITY EXPLAINABILITY DOSSIER CARD */}

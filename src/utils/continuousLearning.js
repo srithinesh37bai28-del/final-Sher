@@ -5,7 +5,7 @@
  * Every document uploaded by any user is vectorized, indexed, and learned dynamically.
  */
 
-import { supabase } from './supabaseClient';
+import { supabase } from './supabaseClient.js';
 
 /**
  * Extract 8-Dimensional Feature Embedding Vector from Raw File Bytes & Canvas ELA Metrics

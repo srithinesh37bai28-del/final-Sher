@@ -10,8 +10,8 @@
  * 6. Active Learning Cosine Similarity k-NN Classifier
  */
 
-import { analyzeImageElaVariance, extractDocumentMetadata } from './forensicEngine';
-import { extractFeatureVector, cosineSimilarity } from './continuousLearning';
+import { analyzeImageElaVariance, extractDocumentMetadata } from './forensicEngine.js';
+import { extractFeatureVector, cosineSimilarity } from './continuousLearning.js';
 
 /**
  * Test Suite Results Logger
